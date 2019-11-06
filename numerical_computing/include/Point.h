@@ -7,16 +7,67 @@
 
 #include "symbolicc++.h"
 
-class Point {
+
+class PointBase {
 
 public:
-    double x;
-    double y;
+    int m_dimension;
     Symbolic matrix;
+    PointBase(int dimension);
+    PointBase();
+
+    ~PointBase();
+
+    Symbolic operator[](int);
+};
+
+////////////////////////////////////////////////////////////////////////
+namespace OneDimensional {
+    class Point: public PointBase {
+    public:
+        Point();
+        Point(double);
+        ~Point();
+
+        void operator=(Symbolic);
+        void operator=(Point);
+    };
+}
+
+////////////////////////////////////////////////////////////////////////
+namespace TwoDimensional {
+    class Point: public PointBase  {
+
+    public:
+        Point();
+        Point(double, double);
+        ~Point();
+
+        void operator=(Symbolic);
+        void operator=(Point);
+    };
+}
+
+////////////////////////////////////////////////////////////////////////
+namespace ThreeDimensional {
+    class Point: public PointBase  {
+
+    public:
+        Point();
+        Point(double, double, double);
+        ~Point();
+
+        void operator=(Symbolic);
+        void operator=(Point);
+    };
+}
+
+////////////////////////////////////////////////////////////////////////
+union PointList {
+    OneDimensional::Point OneDimensionalPoint;
+    TwoDimensional::Point TwoDimensionalPoint;
 
 
-    void operator=(Symbolic);
-    void operator=(Point);
 };
 
 #endif //NUMERICAL_COMPUTING_POINT_H

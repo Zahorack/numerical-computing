@@ -14,9 +14,9 @@ int main() {
 //    examples::lectureOne::taskThree();
 
 //    examples::projectOne::NewtonRaphson();
-//    examples::projectOne::LevenbergMarquardt();
+    examples::projectOne::LevenbergMarquardt();
 
-    examples::projectTwo::test();
+//    examples::projectTwo::test();
 
 
     return 0;

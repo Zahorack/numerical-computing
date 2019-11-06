@@ -4,28 +4,144 @@
 
 #include "Point.h"
 
-void Point::operator=(Symbolic sym) {
-    if(sym.columns() == 2) {
-        matrix = sym;
-        x = static_cast<double>(matrix.column(0));
-        y = static_cast<double>(matrix.column(1));
-    }
-    else if(sym.rows() == 2) {
-        matrix = sym.transpose();
-        x = static_cast<double>(matrix.column(0));
-        y = static_cast<double>(matrix.column(1));
-    }
+PointBase::PointBase(int dimension):
+    m_dimension(dimension)
+{}
+
+PointBase::PointBase():
+    m_dimension(0)
+{}
+
+PointBase::~PointBase() {}
+
+
+Symbolic PointBase::operator[](int at)
+{
+    return matrix.column(at);
 }
 
-void Point::operator=(Point point) {
-    if(point.matrix.columns() == 2) {
+////////////////////////////////////////////////////////////////////////
+namespace OneDimensional {
+
+    Point::Point():
+            PointBase(1)
+    {
+        matrix = (static_cast<Symbolic>(0));
+    }
+
+    Point::Point(double x):
+        PointBase(1)
+    {
+        matrix = (static_cast<Symbolic>(x));
+    }
+
+    Point::~Point() {}
+
+
+    void Point::operator=(Point point)
+    {
         matrix = point.matrix;
-        x = static_cast<double>(matrix.column(0));
-        y = static_cast<double>(matrix.column(1));
     }
-    else if(point.matrix.rows() == 2) {
-        matrix = point.matrix.transpose();
-        x = static_cast<double>(matrix.column(0));
-        y = static_cast<double>(matrix.column(1));
+
+    void Point::operator=(Symbolic sym)
+    {
+        matrix = sym;
     }
+
+}
+
+////////////////////////////////////////////////////////////////////////
+namespace TwoDimensional {
+
+    Point::Point():
+            PointBase(2)
+    {
+        matrix = (static_cast<Symbolic>(0), static_cast<Symbolic>(0));
+    }
+
+    Point::Point(double x, double y):
+            PointBase(2)
+    {
+        matrix = (static_cast<Symbolic>(x), static_cast<Symbolic>(y));
+    }
+
+    Point::~Point() {}
+
+
+    void Point::operator=(Point point)
+    {
+        if(point.matrix.columns() != m_dimension) {
+            if(point.matrix.rows() == m_dimension) {
+                matrix = point.matrix.transpose();
+                cout<<"!! Warning !! - implicit Point matrix transpose\n";
+            }
+            else
+                cout<<"!!! Error !!! - Point matrix out of dimension\n";
+        }
+        else
+            matrix = point.matrix;
+    }
+
+    void Point::operator=(Symbolic sym)
+    {
+        if(sym.columns() != m_dimension) {
+            if(sym.rows() == m_dimension) {
+                matrix = sym.transpose();
+                cout<<"!! Warning !! - implicit Point matrix transpose\n";
+            }
+            else
+                cout<<"!!! Error !!! - Point matrix out of dimension\n";
+        }
+        else
+            matrix = sym;
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////
+namespace ThreeDimensional {
+
+    Point::Point():
+            PointBase(3)
+    {
+        matrix = (static_cast<Symbolic>(0), static_cast<Symbolic>(0), static_cast<Symbolic>(0));
+    }
+
+
+    Point::Point(double x, double y, double z):
+            PointBase(3)
+    {
+        matrix = (static_cast<Symbolic>(x), static_cast<Symbolic>(y), static_cast<Symbolic>(z));
+    }
+
+    Point::~Point() {}
+
+
+    void Point::operator=(Point point) {
+        if(point.matrix.columns() != m_dimension) {
+            if(point.matrix.rows() == m_dimension) {
+                matrix = point.matrix.transpose();
+                cout<<"!! Warning !! - implicit Point matrix transpose\n";
+            }
+            else
+                cout<<"!!! Error !!! - Point matrix out of dimension\n";
+        }
+        else
+            matrix = point.matrix;
+    }
+
+    void Point::operator=(Symbolic sym)
+    {
+        if(sym.columns() != m_dimension) {
+            if(sym.rows() == m_dimension) {
+                matrix = sym.transpose();
+                cout<<"!! Warning !! - implicit Point matrix transpose\n";
+            }
+            else
+                cout<<"!!! Error !!! - Point matrix out of dimension\n";
+        }
+        else
+            matrix = sym;
+    }
+
 }

@@ -22,10 +22,17 @@ namespace examples {
             cout<<"projectTwo";
 
             static const Symbolic x("x"), y("y");
-            static const Symbolic F = (x - 2)*(x - 2) + (y - x*x)*(y - x*x);
+            static const Symbolic F = x*x*x + 2*y*y;
 
-            Function func(F, 2);
-            cout<<func.value();
+            TwoDimensional::Point point(2.0, 3.0);
+            TwoDimensional::Function func(F);
+
+            cout <<func.get()<<"\n";
+            cout << func.value(point) << "\n";
+            cout <<func.gradient()<<"\n";
+            cout <<"Gradient at "<<func.gradient(point)<<"\n";
+            cout <<"Hessian "<<func.hessian()<<"\n";
+            cout <<"Hessian at"<<func.hessian(point)<<"\n";
         }
     }
 }
