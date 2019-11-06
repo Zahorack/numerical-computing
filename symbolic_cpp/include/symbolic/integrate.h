@@ -48,7 +48,7 @@ Symbolic integrate(const Symbolic &,const Symbolic &,unsigned int);
 #ifndef SYMBOLIC_CPLUSPLUS_INTEGRATE_DEFINE
 #define SYMBOLIC_CPLUSPLUS_INTEGRATE_DEFINE
 
-Symbolic integrate(const Symbolic &f,const Symbolic &x)
+inline Symbolic integrate(const Symbolic &f,const Symbolic &x)
 {
  list<Equations> eq;
  list<Equations>::iterator i;
@@ -168,14 +168,14 @@ Symbolic integrate(const Symbolic &f,const Symbolic &x)
  return f.integrate(x);
 }
 
-Symbolic integrate(const Symbolic &f,const Symbolic &x,
+inline Symbolic integrate(const Symbolic &f,const Symbolic &x,
                    const Symbolic &a, const Symbolic &b)
 {
  Symbolic I = integrate(f,x);
  return I[x == b] - I[x == a];
 }
 
-Symbolic integrate(const Symbolic &s,const Symbolic &x,unsigned int i)
+inline Symbolic integrate(const Symbolic &s,const Symbolic &x,unsigned int i)
 {
  Symbolic r = s;
  while(i-- > 0) r = integrate(r,x);

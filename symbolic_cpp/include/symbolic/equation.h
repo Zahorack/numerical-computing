@@ -78,28 +78,28 @@ class Equation: public CloningSymbolicInterface
 #define SYMBOLIC_CPLUSPLUS_EQUATION_DEFINE
 #define SYMBOLIC_CPLUSPLUS_EQUATION
 
-Equation::Equation(const Equation &s)
+inline Equation::Equation(const Equation &s)
 : CloningSymbolicInterface(s), lhs(s.lhs), rhs(s.rhs), free(s.free) {}
 
-Equation::Equation(const Equation &s, const Symbolic &newfree)
+inline Equation::Equation(const Equation &s, const Symbolic &newfree)
 : CloningSymbolicInterface(s), lhs(s.lhs), rhs(s.rhs), free(s.free)
 { free.push_back(newfree); }
 
-Equation::Equation(const Symbolic &s1,const Symbolic &s2)
+inline Equation::Equation(const Symbolic &s1,const Symbolic &s2)
 : lhs(s1), rhs(s2) {}
 
-Equation::~Equation() {}
+inline Equation::~Equation() {}
 
-void Equation::print(ostream &o) const
+inline void Equation::print(ostream &o) const
 { o << lhs << " == " << rhs; }
 
-Symbolic Equation::subst(const Symbolic &x,const Symbolic &y,int &n) const
+inline Symbolic Equation::subst(const Symbolic &x,const Symbolic &y,int &n) const
 { return Equation(lhs.subst(x,y,n),rhs.subst(x,y,n)); }
 
-Simplified Equation::simplify() const
+inline Simplified Equation::simplify() const
 { return Equation(lhs.simplify(),rhs.simplify()); }
 
-int Equation::compare(const Symbolic &s) const
+inline int Equation::compare(const Symbolic &s) const
 {
  if(s.type() != type()) return 0;
 
@@ -108,22 +108,22 @@ int Equation::compare(const Symbolic &s) const
         (lhs.compare(e->rhs) && rhs.compare(e->lhs));
 }
 
-Symbolic Equation::df(const Symbolic &s) const
+inline Symbolic Equation::df(const Symbolic &s) const
 { return Equation(lhs.df(s),rhs.df(s)); }
 
-Symbolic Equation::integrate(const Symbolic &s) const
+inline Symbolic Equation::integrate(const Symbolic &s) const
 { return Equation(::integrate(lhs,s),::integrate(rhs,s)); }
 
-Symbolic Equation::coeff(const Symbolic &s) const
+inline Symbolic Equation::coeff(const Symbolic &s) const
 { return 0; }
 
-Expanded Equation::expand() const
+inline Expanded Equation::expand() const
 { return Equation(lhs.expand(),rhs.expand()); }
 
-int Equation::commute(const Symbolic &s) const
+inline int Equation::commute(const Symbolic &s) const
 { return 0; }
 
-PatternMatches
+inline PatternMatches
 Equation::match(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l;
@@ -139,14 +139,14 @@ Equation::match(const Symbolic &s, const list<Symbolic> &p) const
  return l;
 }
 
-PatternMatches
+inline PatternMatches
 Equation::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 { return s.match(*this, p); }
 
-Equation::operator bool() const
+inline Equation::operator bool() const
 { return lhs.compare(rhs); }
 
-Equation::operator int() const
+inline Equation::operator int() const
 { return lhs.compare(rhs); }
 
 #endif

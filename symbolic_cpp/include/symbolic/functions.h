@@ -296,11 +296,11 @@ class Gamma: public Symbol
 // Implementation of Sin            //
 //////////////////////////////////////
 
-Sin::Sin(const Sin &s) : Symbol(s) {}
+inline Sin::Sin(const Sin &s) : Symbol(s) {}
 
-Sin::Sin(const Symbolic &s) : Symbol(Symbol("sin")[s]) {}
+inline Sin::Sin(const Symbolic &s) : Symbol(Symbol("sin")[s]) {}
 
-Simplified Sin::simplify() const
+inline Simplified Sin::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s == 0) return Number<int>(0);
@@ -315,10 +315,10 @@ Simplified Sin::simplify() const
  return *this;
 }
 
-Symbolic Sin::df(const Symbolic &s) const
+inline Symbolic Sin::df(const Symbolic &s) const
 { return cos(parameters.front()) * parameters.front().df(s); }
 
-Symbolic Sin::integrate(const Symbolic &s) const
+inline Symbolic Sin::integrate(const Symbolic &s) const
 {
  const Symbolic &x = parameters.front();
  if(x == s) return -cos(x);
@@ -330,11 +330,11 @@ Symbolic Sin::integrate(const Symbolic &s) const
 // Implementation of Cos            //
 //////////////////////////////////////
 
-Cos::Cos(const Cos &s) : Symbol(s) {}
+inline Cos::Cos(const Cos &s) : Symbol(s) {}
 
-Cos::Cos(const Symbolic &s) : Symbol(Symbol("cos")[s]) {}
+inline Cos::Cos(const Symbolic &s) : Symbol(Symbol("cos")[s]) {}
 
-Simplified Cos::simplify() const
+inline Simplified Cos::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s == 0) return Number<int>(1);
@@ -349,10 +349,10 @@ Simplified Cos::simplify() const
  return *this;
 }
 
-Symbolic Cos::df(const Symbolic &s) const
+inline Symbolic Cos::df(const Symbolic &s) const
 { return -sin(parameters.front()) * parameters.front().df(s); }
 
-Symbolic Cos::integrate(const Symbolic &s) const
+inline Symbolic Cos::integrate(const Symbolic &s) const
 {
  const Symbolic &x = parameters.front();
  if(x == s) return sin(x);
@@ -364,11 +364,11 @@ Symbolic Cos::integrate(const Symbolic &s) const
 // Implementation of Sinh           //
 //////////////////////////////////////
 
-Sinh::Sinh(const Sinh &s) : Symbol(s) {}
+inline Sinh::Sinh(const Sinh &s) : Symbol(s) {}
 
-Sinh::Sinh(const Symbolic &s) : Symbol(Symbol("sinh")[s]) {}
+inline Sinh::Sinh(const Symbolic &s) : Symbol(Symbol("sinh")[s]) {}
 
-Simplified Sinh::simplify() const
+inline Simplified Sinh::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s == 0) return Number<int>(0);
@@ -383,10 +383,10 @@ Simplified Sinh::simplify() const
  return *this;
 }
 
-Symbolic Sinh::df(const Symbolic &s) const
+inline Symbolic Sinh::df(const Symbolic &s) const
 { return cosh(parameters.front()) * parameters.front().df(s); }
 
-Symbolic Sinh::integrate(const Symbolic &s) const
+inline Symbolic Sinh::integrate(const Symbolic &s) const
 {
  const Symbolic &x = parameters.front();
  if(x == s) return cosh(x);
@@ -398,11 +398,11 @@ Symbolic Sinh::integrate(const Symbolic &s) const
 // Implementation of Cosh           //
 //////////////////////////////////////
 
-Cosh::Cosh(const Cosh &s) : Symbol(s) {}
+inline Cosh::Cosh(const Cosh &s) : Symbol(s) {}
 
-Cosh::Cosh(const Symbolic &s) : Symbol(Symbol("cosh")[s]) {}
+inline Cosh::Cosh(const Symbolic &s) : Symbol(Symbol("cosh")[s]) {}
 
-Simplified Cosh::simplify() const
+inline Simplified Cosh::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s == 0) return Number<int>(1);
@@ -417,10 +417,10 @@ Simplified Cosh::simplify() const
  return *this;
 }
 
-Symbolic Cosh::df(const Symbolic &s) const
+inline Symbolic Cosh::df(const Symbolic &s) const
 { return sinh(parameters.front()) * parameters.front().df(s); }
 
-Symbolic Cosh::integrate(const Symbolic &s) const
+inline Symbolic Cosh::integrate(const Symbolic &s) const
 {
  const Symbolic &x = parameters.front();
  if(x == s) return sinh(x);
@@ -432,12 +432,12 @@ Symbolic Cosh::integrate(const Symbolic &s) const
 // Implementation of Log            //
 //////////////////////////////////////
 
-Log::Log(const Log &s) : Symbol(s) {}
+inline Log::Log(const Log &s) : Symbol(s) {}
 
-Log::Log(const Symbolic &s1,const Symbolic &s2)
+inline Log::Log(const Symbolic &s1,const Symbolic &s2)
 : Symbol(Symbol("log")[s1,s2]) {}
 
-void Log::print(ostream &o) const
+inline void Log::print(ostream &o) const
 {
  if(parameters.size() == 2 && parameters.front() == SymbolicConstant::e)
  {
@@ -450,7 +450,7 @@ void Log::print(ostream &o) const
   Symbol::print(o);
 }
 
-Simplified Log::simplify() const
+inline Simplified Log::simplify() const
 {
  // log_a(b)
  const Symbolic &a = parameters.front().simplify();
@@ -474,14 +474,14 @@ Simplified Log::simplify() const
 // d/ds log_a(b) = d/ds (ln(b) / ln(a))
 //               = (1/b db/ds - log_a(b) / a da/ds) / ln(a)
 //               = (a db/ds - b log_a(b) da/ds) / (a b ln(a))
-Symbolic Log::df(const Symbolic &s) const
+inline Symbolic Log::df(const Symbolic &s) const
 {
  const Symbolic &a = parameters.front();
  const Symbolic &b = parameters.back();
  return (a * b.df(s) - b * *this * a.df(s)) / (a * b * ln(a));
 }
 
-Symbolic Log::integrate(const Symbolic &s) const
+inline Symbolic Log::integrate(const Symbolic &s) const
 {
  const Symbolic &x = parameters.back();
  const Symbolic &a = parameters.front();
@@ -496,12 +496,12 @@ Symbolic Log::integrate(const Symbolic &s) const
 // Implementation of Power          //
 //////////////////////////////////////
 
-Power::Power(const Power &s) : Symbol(s) {}
+inline Power::Power(const Power &s) : Symbol(s) {}
 
-Power::Power(const Symbolic &s,const Symbolic &p) : Symbol("pow")
+inline Power::Power(const Symbolic &s,const Symbolic &p) : Symbol("pow")
 { parameters.push_back(s); parameters.push_back(p); }
 
-void Power::print(ostream &o) const
+inline void Power::print(ostream &o) const
 {
   if(*this == SymbolicConstant::i)
   { o << SymbolicConstant::i_symbol; return; }
@@ -531,7 +531,7 @@ void Power::print(ostream &o) const
   if(parens2) o << ")";
 }
 
-Simplified Power::simplify() const
+inline Simplified Power::simplify() const
 {
  list<Symbolic>::iterator i, j;
  const Symbolic &b = parameters.front().simplify();
@@ -601,7 +601,7 @@ Simplified Power::simplify() const
  return Power(b,n);
 }
 
-Expanded Power::expand() const
+inline Expanded Power::expand() const
 {
  Symbolic b = parameters.front().expand();
  Symbolic n = parameters.back().expand();
@@ -661,7 +661,7 @@ Expanded Power::expand() const
  return Power(r,Number<int>(sgn));
 }
 
-Symbolic Power::subst(const Symbolic &x,const Symbolic &y,int &n) const
+inline Symbolic Power::subst(const Symbolic &x,const Symbolic &y,int &n) const
 {
  if(x.type() == typeid(Power))
  {
@@ -686,14 +686,14 @@ Symbolic Power::subst(const Symbolic &x,const Symbolic &y,int &n) const
 
 // d/ds (a^b) = d/ds exp(b ln(a))
 //            = (ln(a) db/ds + b/a da/ds) a^b
-Symbolic Power::df(const Symbolic &s) const
+inline Symbolic Power::df(const Symbolic &s) const
 {
  const Symbolic &a = parameters.front();
  const Symbolic &b = parameters.back();
  return (ln(a)*b.df(s) + (b/a)*a.df(s)) * *this;
 }
 
-Symbolic Power::integrate(const Symbolic &s) const
+inline Symbolic Power::integrate(const Symbolic &s) const
 {
  const Symbolic &a = parameters.front();
  const Symbolic &b = parameters.back();
@@ -708,7 +708,7 @@ Symbolic Power::integrate(const Symbolic &s) const
  return Integral(*this,s);
 }
 
-PatternMatches
+inline PatternMatches
 Power::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l;
@@ -746,9 +746,9 @@ Power::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 // Implementation of Derivative     //
 //////////////////////////////////////
 
-Derivative::Derivative(const Derivative &d) : Symbol(d) { }
+inline Derivative::Derivative(const Derivative &d) : Symbol(d) { }
 
-Derivative::Derivative(const Symbolic &s1,const Symbolic &s2)
+inline Derivative::Derivative(const Symbolic &s1,const Symbolic &s2)
 : Symbol("df")
 {
  if(s1.type() == typeid(Derivative))
@@ -763,7 +763,7 @@ Derivative::Derivative(const Symbolic &s1,const Symbolic &s2)
  }
 }
 
-Symbolic Derivative::subst(const Symbolic &x,const Symbolic &y,int &n) const
+inline Symbolic Derivative::subst(const Symbolic &x,const Symbolic &y,int &n) const
 {
  if(*this == x) return y;
 
@@ -813,7 +813,7 @@ Symbolic Derivative::subst(const Symbolic &x,const Symbolic &y,int &n) const
  return dy;
 }
 
-Symbolic Derivative::df(const Symbolic &s) const
+inline Symbolic Derivative::df(const Symbolic &s) const
 {
  list<Symbolic>::const_iterator i;
 
@@ -837,7 +837,7 @@ Symbolic Derivative::df(const Symbolic &s) const
  return 0;
 }
 
-int Derivative::compare(const Symbolic &s) const
+inline int Derivative::compare(const Symbolic &s) const
 {
  list<Symbolic>::const_iterator i;
  list<Symbolic>::iterator j;
@@ -857,7 +857,7 @@ int Derivative::compare(const Symbolic &s) const
  return 1;
 }
 
-Symbolic Derivative::integrate(const Symbolic &s) const
+inline Symbolic Derivative::integrate(const Symbolic &s) const
 {
  int n = 0, n1;
  list<Symbolic>::const_iterator i, i1 = parameters.end();
@@ -884,9 +884,9 @@ Symbolic Derivative::integrate(const Symbolic &s) const
 // Implementation of Integral       //
 //////////////////////////////////////
 
-Integral::Integral(const Integral &d) : Symbol(d) { }
+inline Integral::Integral(const Integral &d) : Symbol(d) { }
 
-Integral::Integral(const Symbolic &s1,const Symbolic &s2) : Symbol("int")
+inline Integral::Integral(const Symbolic &s1,const Symbolic &s2) : Symbol("int")
 {
  if(s1.type() == typeid(Integral))
  {
@@ -900,7 +900,7 @@ Integral::Integral(const Symbolic &s1,const Symbolic &s2) : Symbol("int")
  }
 }
 
-Symbolic Integral::subst(const Symbolic &x,const Symbolic &y,int &n) const
+inline Symbolic Integral::subst(const Symbolic &x,const Symbolic &y,int &n) const
 {
  if(*this == x) { ++n; return y; }
 
@@ -911,7 +911,7 @@ Symbolic Integral::subst(const Symbolic &x,const Symbolic &y,int &n) const
  return dy;
 }
 
-Symbolic Integral::df(const Symbolic &s) const
+inline Symbolic Integral::df(const Symbolic &s) const
 {
  int n = 0, n1;
  list<Symbolic>::const_iterator i, i1 = parameters.end();
@@ -934,7 +934,7 @@ Symbolic Integral::df(const Symbolic &s) const
  return Derivative(*this,s);
 }
 
-Symbolic Integral::integrate(const Symbolic &s) const
+inline Symbolic Integral::integrate(const Symbolic &s) const
 {
  if(parameters.front().df(s) != 0)
  {
@@ -950,11 +950,11 @@ Symbolic Integral::integrate(const Symbolic &s) const
 // Implementation of Rows           //
 //////////////////////////////////////
 
-Rows::Rows(const Rows &s) : Symbol(s) {}
+inline Rows::Rows(const Rows &s) : Symbol(s) {}
 
-Rows::Rows(const Symbolic &s) : Symbol(Symbol("rows")[s]) {}
+inline Rows::Rows(const Symbolic &s) : Symbol(Symbol("rows")[s]) {}
 
-Simplified Rows::simplify() const
+inline Simplified Rows::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(SymbolicMatrix)) return Rows(s);
@@ -965,11 +965,11 @@ Simplified Rows::simplify() const
 // Implementation of Columns        //
 //////////////////////////////////////
 
-Columns::Columns(const Columns &s) : Symbol(s) {}
+inline Columns::Columns(const Columns &s) : Symbol(s) {}
 
-Columns::Columns(const Symbolic &s) : Symbol(Symbol("columns")[s]) {}
+inline Columns::Columns(const Symbolic &s) : Symbol(Symbol("columns")[s]) {}
 
-Simplified Columns::simplify() const
+inline Simplified Columns::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(SymbolicMatrix)) return Columns(s);
@@ -980,11 +980,11 @@ Simplified Columns::simplify() const
 // Implementation of Row            //
 //////////////////////////////////////
 
-Row::Row(const Row &s) : Symbol(s), row(s.row) {}
+inline Row::Row(const Row &s) : Symbol(s), row(s.row) {}
 
-Row::Row(const Symbolic &s,int r) : Symbol(Symbol("row")[s,r]), row(r) {}
+inline Row::Row(const Symbolic &s,int r) : Symbol(Symbol("row")[s,r]), row(r) {}
 
-Simplified Row::simplify() const
+inline Simplified Row::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(SymbolicMatrix)) return Row(s, row);
@@ -995,12 +995,12 @@ Simplified Row::simplify() const
 // Implementation of Column         //
 //////////////////////////////////////
 
-Column::Column(const Column &s) : Symbol(s), column(s.column) {}
+inline Column::Column(const Column &s) : Symbol(s), column(s.column) {}
 
-Column::Column(const Symbolic &s,int c)
+inline Column::Column(const Symbolic &s,int c)
  : Symbol(Symbol("column")[s,c]), column(c) {}
 
-Simplified Column::simplify() const
+inline Simplified Column::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(SymbolicMatrix)) return Column(s, column);
@@ -1011,11 +1011,11 @@ Simplified Column::simplify() const
 // Implementation of Transpose      //
 //////////////////////////////////////
 
-Transpose::Transpose(const Transpose &s) : Symbol(s) {}
+inline Transpose::Transpose(const Transpose &s) : Symbol(s) {}
 
-Transpose::Transpose(const Symbolic &s) : Symbol(Symbol("transpose")[s]) {}
+inline Transpose::Transpose(const Symbolic &s) : Symbol(Symbol("transpose")[s]) {}
 
-Simplified Transpose::simplify() const
+inline Simplified Transpose::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(SymbolicMatrix)) return Transpose(s);
@@ -1026,11 +1026,11 @@ Simplified Transpose::simplify() const
 // Implementation of Trace          //
 //////////////////////////////////////
 
-Trace::Trace(const Trace &s) : Symbol(s) {}
+inline Trace::Trace(const Trace &s) : Symbol(s) {}
 
-Trace::Trace(const Symbolic &s) : Symbol(Symbol("tr")[s]) {}
+inline Trace::Trace(const Symbolic &s) : Symbol(Symbol("tr")[s]) {}
 
-Simplified Trace::simplify() const
+inline Simplified Trace::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(SymbolicMatrix)) return Trace(s);
@@ -1041,11 +1041,11 @@ Simplified Trace::simplify() const
 // Implementation of Determinant    //
 //////////////////////////////////////
 
-Determinant::Determinant(const Determinant &s) : Symbol(s) {}
+inline Determinant::Determinant(const Determinant &s) : Symbol(s) {}
 
-Determinant::Determinant(const Symbolic &s) : Symbol(Symbol("det")[s]) {}
+inline Determinant::Determinant(const Symbolic &s) : Symbol(Symbol("det")[s]) {}
 
-Simplified Determinant::simplify() const
+inline Simplified Determinant::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(SymbolicMatrix)) return Determinant(s);
@@ -1056,11 +1056,11 @@ Simplified Determinant::simplify() const
 // Implementation of Vec            //
 //////////////////////////////////////
 
-Vec::Vec(const Vec &s) : Symbol(s) {}
+inline Vec::Vec(const Vec &s) : Symbol(s) {}
 
-Vec::Vec(const Symbolic &s) : Symbol(Symbol("vec")[s]) {}
+inline Vec::Vec(const Symbolic &s) : Symbol(Symbol("vec")[s]) {}
 
-Simplified Vec::simplify() const
+inline Simplified Vec::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(SymbolicMatrix)) return Vec(s);
@@ -1071,12 +1071,12 @@ Simplified Vec::simplify() const
 // Implementation of Kronecker      //
 //////////////////////////////////////
 
-Kronecker::Kronecker(const Kronecker &s) : Symbol(s) {}
+inline Kronecker::Kronecker(const Kronecker &s) : Symbol(s) {}
 
-Kronecker::Kronecker(const Symbolic &s1, const Symbolic &s2)
+inline Kronecker::Kronecker(const Symbolic &s1, const Symbolic &s2)
  : Symbol(Symbol("kron")[s1,s2]) {}
 
-Simplified Kronecker::simplify() const
+inline Simplified Kronecker::simplify() const
 {
  const Symbolic &s1 = parameters.front().simplify();
  const Symbolic &s2 = parameters.back().simplify();
@@ -1090,12 +1090,12 @@ Simplified Kronecker::simplify() const
 // Implementation of DirectSum      //
 //////////////////////////////////////
 
-DirectSum::DirectSum(const DirectSum &s) : Symbol(s) {}
+inline DirectSum::DirectSum(const DirectSum &s) : Symbol(s) {}
 
-DirectSum::DirectSum(const Symbolic &s1, const Symbolic &s2)
+inline DirectSum::DirectSum(const Symbolic &s1, const Symbolic &s2)
  : Symbol(Symbol("dsum")[s1,s2]) {}
 
-Simplified DirectSum::simplify() const
+inline Simplified DirectSum::simplify() const
 {
  const Symbolic &s1 = parameters.front().simplify();
  const Symbolic &s2 = parameters.back().simplify();
@@ -1109,12 +1109,12 @@ Simplified DirectSum::simplify() const
 // Implementation of Hadamard       //
 //////////////////////////////////////
 
-Hadamard::Hadamard(const Hadamard &s) : Symbol(s) {}
+inline Hadamard::Hadamard(const Hadamard &s) : Symbol(s) {}
 
-Hadamard::Hadamard(const Symbolic &s1, const Symbolic &s2)
+inline Hadamard::Hadamard(const Symbolic &s1, const Symbolic &s2)
  : Symbol(Symbol("hadamard")[s1,s2]) {}
 
-Simplified Hadamard::simplify() const
+inline Simplified Hadamard::simplify() const
 {
  const Symbolic &s1 = parameters.front().simplify();
  const Symbolic &s2 = parameters.back().simplify();
@@ -1128,11 +1128,11 @@ Simplified Hadamard::simplify() const
 // Implementation of Gamma          //
 //////////////////////////////////////
 
-Gamma::Gamma(const Gamma &s) : Symbol(s) {}
+inline Gamma::Gamma(const Gamma &s) : Symbol(s) {}
 
-Gamma::Gamma(const Symbolic &s) : Symbol(Symbol("gamma")[s]) {}
+inline Gamma::Gamma(const Symbolic &s) : Symbol(Symbol("gamma")[s]) {}
 
-Simplified Gamma::simplify() const
+inline Simplified Gamma::simplify() const
 {
  const Symbolic &s = parameters.front().simplify();
  if(s.type() != typeid(Numeric)) return Gamma(s);

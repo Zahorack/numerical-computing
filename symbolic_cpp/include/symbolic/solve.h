@@ -47,7 +47,7 @@ list<Equations> solve(const Equations &, const list<Symbolic> &);
 #ifndef SYMBOLIC_CPLUSPLUS_SOLVE_DEFINE
 #define SYMBOLIC_CPLUSPLUS_SOLVE_DEFINE
 
-Equations solve(const Symbolic &e, const Symbolic &x)
+inline Equations solve(const Symbolic &e, const Symbolic &x)
 {
  Equations soln;
  if(e == 0)
@@ -98,10 +98,10 @@ Equations solve(const Symbolic &e, const Symbolic &x)
  return soln;
 }
 
-Equations solve(const Equation &e, const Symbolic &x)
+inline Equations solve(const Equation &e, const Symbolic &x)
 { return solve(e.lhs - e.rhs, x); }
 
-list<Equations> solve(const Equations &e, const list<Symbolic> &l)
+inline list<Equations> solve(const Equations &e, const list<Symbolic> &l)
 {
  int sc = 0, free = 1;
  list<Equations> soln;

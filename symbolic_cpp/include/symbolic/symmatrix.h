@@ -77,14 +77,14 @@ class SymbolicMatrix
 #define SYMBOLIC_CPLUSPLUS_SYMBOLICMATRIX_DEFINE
 #define SYMBOLIC_CPLUSPLUS_SYMBOLICMATRIX
 
-SymbolicMatrix::SymbolicMatrix(const SymbolicMatrix &s)
+inline SymbolicMatrix::SymbolicMatrix(const SymbolicMatrix &s)
 : CloningSymbolicInterface(s), Matrix<Symbolic>(s) {}
 
-SymbolicMatrix::SymbolicMatrix(const Matrix<Symbolic> &s)
+inline SymbolicMatrix::SymbolicMatrix(const Matrix<Symbolic> &s)
 : Matrix<Symbolic>(s)
 {}
 
-SymbolicMatrix::SymbolicMatrix(const list<list<Symbolic> > &sl)
+inline SymbolicMatrix::SymbolicMatrix(const list<list<Symbolic> > &sl)
 {
  int cols = 0, k, l;
  list<Symbolic>::const_iterator j;
@@ -101,7 +101,7 @@ SymbolicMatrix::SymbolicMatrix(const list<list<Symbolic> > &sl)
  }
 }
 
-SymbolicMatrix::SymbolicMatrix(const string &s,int n,int m)
+inline SymbolicMatrix::SymbolicMatrix(const string &s,int n,int m)
  : Matrix<Symbolic>(n,m)
 {
  for(int i=0;i<n;++i)
@@ -116,10 +116,10 @@ SymbolicMatrix::SymbolicMatrix(const string &s,int n,int m)
   }
 }
 
-SymbolicMatrix::SymbolicMatrix(const Symbolic &s,int n,int m)
+inline SymbolicMatrix::SymbolicMatrix(const Symbolic &s,int n,int m)
  : Matrix<Symbolic>(n,m,s) {}
 
-SymbolicMatrix::SymbolicMatrix(const char *s,int n,int m)
+inline SymbolicMatrix::SymbolicMatrix(const char *s,int n,int m)
  : Matrix<Symbolic>(n,m)
 {
  int i, j;
@@ -135,15 +135,15 @@ SymbolicMatrix::SymbolicMatrix(const char *s,int n,int m)
   }
 }
 
-SymbolicMatrix::SymbolicMatrix(int n,int m)
+inline SymbolicMatrix::SymbolicMatrix(int n,int m)
  : Matrix<Symbolic>(n,m,Symbolic(0)) {}
 
-SymbolicMatrix::~SymbolicMatrix() {}
+inline SymbolicMatrix::~SymbolicMatrix() {}
 
-void SymbolicMatrix::print(ostream &o) const
+inline void SymbolicMatrix::print(ostream &o) const
 { o << endl << *this; }
 
-Symbolic SymbolicMatrix::subst(const Symbolic &x,
+inline Symbolic SymbolicMatrix::subst(const Symbolic &x,
                                const Symbolic &y,int &n) const
 {
  if(*this == x) { ++n; return y; }
@@ -157,7 +157,7 @@ Symbolic SymbolicMatrix::subst(const Symbolic &x,
  return m;
 }
 
-Simplified SymbolicMatrix::simplify() const
+inline Simplified SymbolicMatrix::simplify() const
 {
  // single element matrix -> number
  if(rows() == 1 && cols() == 1)
@@ -171,14 +171,14 @@ Simplified SymbolicMatrix::simplify() const
  return m;
 }
 
-int SymbolicMatrix::compare(const Symbolic &s) const
+inline int SymbolicMatrix::compare(const Symbolic &s) const
 { 
  if(s.type() != type()) return 0;
  CastPtr<const SymbolicMatrix> m = s;
  return (*this) == (*m);
 }
 
-Symbolic SymbolicMatrix::df(const Symbolic &s) const
+inline Symbolic SymbolicMatrix::df(const Symbolic &s) const
 {
  SymbolicMatrix m(rows(),cols());
  for(int r = rows()-1;r>=0;r--)
@@ -188,7 +188,7 @@ Symbolic SymbolicMatrix::df(const Symbolic &s) const
  return m;
 }
 
-Symbolic SymbolicMatrix::integrate(const Symbolic &s) const
+inline Symbolic SymbolicMatrix::integrate(const Symbolic &s) const
 {
  SymbolicMatrix m(rows(),cols());
  for(int r = rows()-1;r>=0;r--)
@@ -198,10 +198,10 @@ Symbolic SymbolicMatrix::integrate(const Symbolic &s) const
  return m;
 }
 
-Symbolic SymbolicMatrix::coeff(const Symbolic &s) const
+inline Symbolic SymbolicMatrix::coeff(const Symbolic &s) const
 { return 0; }
 
-Expanded SymbolicMatrix::expand() const
+inline Expanded SymbolicMatrix::expand() const
 {
  SymbolicMatrix m(rows(),cols());
  for(int r = rows()-1;r>=0;r--)
@@ -211,7 +211,7 @@ Expanded SymbolicMatrix::expand() const
  return m;
 }
 
-int SymbolicMatrix::commute(const Symbolic &s) const
+inline int SymbolicMatrix::commute(const Symbolic &s) const
 {
  if(s.type() == typeid(SymbolicMatrix))
  {
@@ -221,7 +221,7 @@ int SymbolicMatrix::commute(const Symbolic &s) const
  return s.commute(*this);
 }
 
-PatternMatches
+inline PatternMatches
 SymbolicMatrix::match(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l;
@@ -249,7 +249,7 @@ SymbolicMatrix::match(const Symbolic &s, const list<Symbolic> &p) const
  return l;
 }
  
-PatternMatches
+inline PatternMatches
 SymbolicMatrix::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l = s.match(*this, p);

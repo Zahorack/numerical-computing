@@ -78,12 +78,12 @@ class Product: public CloningSymbolicInterface
 #define SYMBOLIC_CPLUSPLUS_PRODUCT_DEFINE
 #define SYMBOLIC_CPLUSPLUS_PRODUCT
 
-Product::Product() {}
+inline Product::Product() {}
 
-Product::Product(const Product &s)
+inline Product::Product(const Product &s)
  : CloningSymbolicInterface(s), factors(s.factors) {}
 
-Product::Product(const Symbolic &s1,const Symbolic &s2)
+inline Product::Product(const Symbolic &s1,const Symbolic &s2)
 {
  if(s1.type() == typeid(Product))
   factors = CastPtr<const Product>(s1)->factors;
@@ -96,22 +96,22 @@ Product::Product(const Symbolic &s1,const Symbolic &s2)
  else factors.push_back(s2);
 }
 
-Product::~Product() {}
+inline Product::~Product() {}
 
-Product &Product::operator=(const Product &p)
+inline Product &Product::operator=(const Product &p)
 {
  if(this != &p) factors = p.factors;
  return *this;
 }
 
-int Product::printsNegative() const
+inline int Product::printsNegative() const
 {
  return factors.size() > 1                        &&
         factors.front().type() == typeid(Numeric) &&
         CastPtr<const Numeric>(factors.front())->isNegative();
 }
 
-void Product::print(ostream &o) const
+inline void Product::print(ostream &o) const
 {
  if(factors.empty()) o << 1;
  if(factors.size() == 1) factors.begin()->print(o);
@@ -133,7 +133,7 @@ void Product::print(ostream &o) const
   }
 }
 
-Symbolic Product::subst(const Symbolic &x,const Symbolic &y,int &n) const
+inline Symbolic Product::subst(const Symbolic &x,const Symbolic &y,int &n) const
 {
 #if 0
 /*
@@ -394,7 +394,7 @@ Symbolic Product::subst(const Symbolic &x,const Symbolic &y,int &n) const
  return p;
 }
 
-Simplified Product::simplify() const
+inline Simplified Product::simplify() const
 {
  list<Symbolic>::const_iterator i;
  list<Symbolic>::iterator j, k, k1;
@@ -538,7 +538,7 @@ Simplified Product::simplify() const
  return r;
 }
 
-int Product::compare(const Symbolic &s) const
+inline int Product::compare(const Symbolic &s) const
 {
  int c = 0;
  if(type() != s.type()) return 0;
@@ -547,7 +547,7 @@ int Product::compare(const Symbolic &s) const
          && c == 2);
 }
 
-Symbolic Product::df(const Symbolic &s) const
+inline Symbolic Product::df(const Symbolic &s) const
 {
  list<Symbolic>::iterator i;
  Product p(*this);
@@ -563,7 +563,7 @@ Symbolic Product::df(const Symbolic &s) const
  return r;
 }
 
-Symbolic Product::integrate(const Symbolic &s) const
+inline Symbolic Product::integrate(const Symbolic &s) const
 {
  int count = 0;
  list<Symbolic>::const_iterator i, i1;
@@ -584,7 +584,7 @@ Symbolic Product::integrate(const Symbolic &s) const
  return Integral(*this,s);
 }
 
-Symbolic Product::coeff(const Symbolic &s) const
+inline Symbolic Product::coeff(const Symbolic &s) const
 {
  int c = 0;
  Symbolic result = subst(s,1,c);
@@ -618,7 +618,7 @@ Symbolic Product::coeff(const Symbolic &s) const
  return 0;
 }
 
-Expanded Product::expand() const
+inline Expanded Product::expand() const
 {
  list<Symbolic>::const_iterator i, k;
  list<Symbolic>::iterator j;
@@ -679,7 +679,7 @@ Expanded Product::expand() const
 #endif
 }
 
-int Product::commute(const Symbolic &s) const
+inline int Product::commute(const Symbolic &s) const
 {
  // Optimize the case for numbers
  if(s.type() == typeid(Numeric)) return 1;
@@ -690,7 +690,7 @@ int Product::commute(const Symbolic &s) const
  return 1;
 }
 
-PatternMatches
+inline PatternMatches
 Product::match(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l;
@@ -741,7 +741,7 @@ Product::match(const Symbolic &s, const list<Symbolic> &p) const
  return l;
 }
 
-PatternMatches
+inline PatternMatches
 Product::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l = s.match(*this, p);

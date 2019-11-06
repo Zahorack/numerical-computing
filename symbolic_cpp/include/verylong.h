@@ -93,8 +93,8 @@ class Verylong
       friend double div(const Verylong&,const Verylong&);
 
       // Class Data
-      static const Verylong zero;
-      static const Verylong one;
+       static const Verylong zero;
+       static const Verylong one;
       static const Verylong two;
 
       // I/O stream functions
@@ -106,15 +106,15 @@ class Verylong
 
 // Class Data
 
-const Verylong Verylong::zero = Verylong("0");
+inline const Verylong Verylong::zero = Verylong("0");
 
-const Verylong Verylong::one = Verylong("1");
+inline const Verylong Verylong::one = Verylong("1");
 
-const Verylong Verylong::two = Verylong("2");
+inline const Verylong Verylong::two = Verylong("2");
 
 // Constructors, Destructors and Conversion operators.
 
-Verylong::Verylong(const string &value)
+inline Verylong::Verylong(const string &value)
 {
    string s = (value == "") ? "0" : value;
 
@@ -124,7 +124,7 @@ Verylong::Verylong(const string &value)
    else vlstr = s;
 }
 
-Verylong::Verylong(int n)
+inline Verylong::Verylong(int n)
 {
    if(n < 0) { vlsign = 1; n = (-n); } // check for sign and convert the
    else vlsign = 0;                    // number to positive when negative
@@ -138,11 +138,11 @@ Verylong::Verylong(int n)
    else vlstr = string("0"); // else number is zero
 }
 
-Verylong::Verylong(const Verylong &x) : vlstr(x.vlstr),vlsign(x.vlsign) { }
+inline Verylong::Verylong(const Verylong &x) : vlstr(x.vlstr),vlsign(x.vlsign) { }
 
-Verylong::~Verylong() { }
+inline Verylong::~Verylong() { }
 
-Verylong::operator int() const
+inline Verylong::operator int() const
 {
    int number, factor = 1;
    static Verylong max0(numeric_limits<int>::max());
@@ -171,8 +171,8 @@ Verylong::operator int() const
    if(vlsign) return -number;
    return number;
 }
-   
-Verylong::operator double() const
+
+inline Verylong::operator double() const
 {
    double sum, factor = 1.0;
    string::const_reverse_iterator i = vlstr.rbegin();
@@ -187,7 +187,7 @@ Verylong::operator double() const
    return sum;
 }
 
-Verylong::operator string () const
+inline Verylong::operator string () const
 {
    if(vlstr.length() == 0) return string("0");
    return vlstr;
@@ -195,7 +195,7 @@ Verylong::operator string () const
 
 // Various member operators
 
-const Verylong & Verylong::operator = (const Verylong &rhs)
+inline const Verylong & Verylong::operator = (const Verylong &rhs)
 {
    if(this == &rhs) return *this;
 
@@ -206,7 +206,7 @@ const Verylong & Verylong::operator = (const Verylong &rhs)
 }
 
 // Unary - operator
-Verylong Verylong::operator -() const
+inline Verylong Verylong::operator -() const
 {
     Verylong temp(*this);
     if(temp != zero)  temp.vlsign = !vlsign;
@@ -214,11 +214,11 @@ Verylong Verylong::operator -() const
 }
 
 // Prefix increment operator
-Verylong Verylong::operator ++ ()
+inline Verylong Verylong::operator ++ ()
 { return *this = *this + one; }
 
 // Postfix increment operator
-Verylong Verylong::operator ++ (int)
+inline Verylong Verylong::operator ++ (int)
 {
    Verylong result(*this);
    *this = *this + one;
@@ -226,35 +226,35 @@ Verylong Verylong::operator ++ (int)
 }
 
 // Prefix decrement operator
-Verylong Verylong::operator -- ()
+inline Verylong Verylong::operator -- ()
 { return *this = *this - one; }
 
 // Postfix decrement operator
-Verylong Verylong::operator -- (int)
+inline Verylong Verylong::operator -- (int)
 {
    Verylong result(*this);
    *this = *this - one;
    return result;
 }
 
-Verylong Verylong::operator += (const Verylong &v)
+inline Verylong Verylong::operator += (const Verylong &v)
 {  return *this = *this + v; }
 
-Verylong Verylong::operator -= (const Verylong &v)
+inline Verylong Verylong::operator -= (const Verylong &v)
 {  return *this = *this - v; }
 
-Verylong Verylong::operator *= (const Verylong &v)
+inline Verylong Verylong::operator *= (const Verylong &v)
 {  return *this = *this * v; }
 
-Verylong Verylong::operator /= (const Verylong &v)
+inline Verylong Verylong::operator /= (const Verylong &v)
 {  return *this = *this / v; }
 
-Verylong Verylong::operator %= (const Verylong &v)
+inline Verylong Verylong::operator %= (const Verylong &v)
 {  return *this = *this % v; }
 
 // Various friendship operators and functions.
 
-Verylong operator + (const Verylong &u,const Verylong &v)
+inline Verylong operator + (const Verylong &u,const Verylong &v)
 {
     char digitsum, d1, d2, carry = 0;
     string temp;
@@ -281,7 +281,7 @@ Verylong operator + (const Verylong &u,const Verylong &v)
     return Verylong(temp);
 }
 
-Verylong operator - (const Verylong &u,const Verylong &v)  
+inline Verylong operator - (const Verylong &u,const Verylong &v)
 {
     char d, d1, d2, borrow = 0;
     int negative;
@@ -316,7 +316,7 @@ Verylong operator - (const Verylong &u,const Verylong &v)
     return Verylong(temp);
 }
 
-Verylong operator * (const Verylong &u,const Verylong &v)
+inline Verylong operator * (const Verylong &u,const Verylong &v)
 {
     Verylong pprod("1"), tempsum("0");
     string::const_reverse_iterator r = v.vlstr.rbegin();
@@ -333,7 +333,7 @@ Verylong operator * (const Verylong &u,const Verylong &v)
 }
 
 //  This algorithm is the long division algorithm.
-Verylong operator / (const Verylong &u,const Verylong &v)
+inline Verylong operator / (const Verylong &u,const Verylong &v)
 {
     int len = u.vlstr.length() - v.vlstr.length();
     string temp;
@@ -371,16 +371,16 @@ Verylong operator / (const Verylong &u,const Verylong &v)
     return quotient;
 }
 
-Verylong operator % (const Verylong &u,const Verylong &v)
+inline Verylong operator % (const Verylong &u,const Verylong &v)
 { return (u - v*(u/v)); }
 
-int operator == (const Verylong &u,const Verylong &v)
+inline int operator == (const Verylong &u,const Verylong &v)
 { return (u.vlsign==v.vlsign && u.vlstr==v.vlstr); }
 
-int operator != (const Verylong &u,const Verylong &v)  
+inline int operator != (const Verylong &u,const Verylong &v)
 { return !(u==v); }
 
-int operator < (const Verylong &u,const Verylong &v)
+inline int operator < (const Verylong &u,const Verylong &v)
 {
     if      (u.vlsign < v.vlsign) return 0;
     else if(u.vlsign > v.vlsign) return 1;
@@ -390,17 +390,17 @@ int operator < (const Verylong &u,const Verylong &v)
     return (u.vlstr < v.vlstr && !u.vlsign) || (u.vlstr > v.vlstr && u.vlsign);
 }
 
-int operator <= (const Verylong &u,const Verylong &v)
+inline int operator <= (const Verylong &u,const Verylong &v)
 { return (u<v || u==v); }
 
-int operator > (const Verylong &u,const Verylong &v)
+inline int operator > (const Verylong &u,const Verylong &v)
 { return (!(u<v) && u!=v); }
 
-int operator >= (const Verylong &u,const Verylong &v)
+inline int operator >= (const Verylong &u,const Verylong &v)
 { return (u>v || u==v); }
 
 // Calculate the absolute value of a number
-Verylong abs(const Verylong &v)
+inline Verylong abs(const Verylong &v)
 {
    Verylong u(v);
    if(u.vlsign) u.vlsign = 0;
@@ -409,7 +409,7 @@ Verylong abs(const Verylong &v)
 
 // Calculate the integer square root of a number
 // based on the formula (a+b)^2 = a^2 + 2ab + b^2
-Verylong sqrt(const Verylong &v)
+inline Verylong sqrt(const Verylong &v)
 {
    // if v is negative, error is reported
    if(v.vlsign) {cerr << "NaN" << endl; return Verylong::zero; }
@@ -457,7 +457,7 @@ Verylong sqrt(const Verylong &v)
 }
 
 // Raise a number X to a power of degree
-Verylong pow(const Verylong &X,const Verylong &degree)
+inline Verylong pow(const Verylong &X,const Verylong &degree)
 {
    Verylong N(degree), Y("1"), x(X);
 
@@ -478,7 +478,7 @@ Verylong pow(const Verylong &X,const Verylong &degree)
 }
 
 // Double division function
-double div(const Verylong &u,const Verylong &v)
+inline double div(const Verylong &u,const Verylong &v)
 {
    double qq = 0.0, qqscale = 1.0;
    Verylong w,y,b,c;
@@ -528,14 +528,14 @@ double div(const Verylong &u,const Verylong &v)
    return qq;
 }
 
-ostream & operator << (ostream &s,const Verylong &v)
+inline ostream & operator << (ostream &s,const Verylong &v)
 {
     if(v.vlstr.length() > 0) { if(v.vlsign) s << "-"; s << v.vlstr; }
     else s << "0";
     return s;
 }
 
-istream & operator >> (istream &s,Verylong &v)
+inline istream & operator >> (istream &s,Verylong &v)
 {
    string temp(10000, ' ');
    s >> temp;
@@ -547,7 +547,7 @@ istream & operator >> (istream &s,Verylong &v)
 // Private member functions: multdigit(), mult10().
 
 // Multiply this Verylong number by num
-Verylong Verylong::multdigit(int num) const
+inline Verylong Verylong::multdigit(int num) const
 {
     int carry = 0;
     string::const_reverse_iterator r;
@@ -575,7 +575,7 @@ Verylong Verylong::multdigit(int num) const
 }
 
 // Multiply this Verylong number by 10*num
-Verylong Verylong::mult10(int num) const
+inline Verylong Verylong::mult10(int num) const
 {
     if(*this != zero)
     {
@@ -587,13 +587,12 @@ Verylong Verylong::mult10(int num) const
     }
     else return zero;
 }
+ template <> inline Verylong zero(Verylong) { return Verylong::zero; }
+ template <> inline Verylong one(Verylong) { return Verylong::one; }
 
-template <> Verylong zero(Verylong) { return Verylong::zero; }
-template <> Verylong one(Verylong) { return Verylong::one; }
+#undef LIBSYMBOLICCPLUSPLUSzero
 
-#undef LIBSYMBOLICCPLUSPLUS
-
-template <> Verylong zero(Verylong);
-template <> Verylong one(Verylong);
+ template <> inline Verylong zero(Verylong);
+ template <> inline Verylong one(Verylong);
 
 #endif

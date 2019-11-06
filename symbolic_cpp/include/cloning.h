@@ -75,11 +75,11 @@ class CastPtr: public CloningPtr
 // Cloning Implementation    //
 ///////////////////////////////
 
-Cloning::Cloning() : refcount(0), free_p(0) {}
+inline Cloning::Cloning() : refcount(0), free_p(0) {}
 
-Cloning::Cloning(const Cloning &c) : refcount(c.refcount), free_p(c.free_p) { }
+inline Cloning::Cloning(const Cloning &c) : refcount(c.refcount), free_p(c.free_p) { }
 
-Cloning::~Cloning() {}
+inline Cloning::~Cloning() {}
 
 #undef LIBSYMBOLICCPLUSPLUS
 
@@ -99,10 +99,10 @@ template <class T> void Cloning::free(Cloning *c)
 
 #define LIBSYMBOLICCPLUSPLUS
 
-void Cloning::reference(Cloning *c)
+inline void Cloning::reference(Cloning *c)
 { if(c != 0 && c->refcount != 0) c->refcount++; }
 
-void Cloning::unreference(Cloning *c)
+inline void Cloning::unreference(Cloning *c)
 {
  if(c != 0 && c->refcount != 0 && c->free_p != 0)
  {
@@ -115,18 +115,18 @@ void Cloning::unreference(Cloning *c)
 // CloningPtr Implementation //
 ///////////////////////////////
 
-CloningPtr::CloningPtr() : value(0) { }
+inline CloningPtr::CloningPtr() : value(0) { }
 
-CloningPtr::CloningPtr(const Cloning &p)
+inline CloningPtr::CloningPtr(const Cloning &p)
 { value = p.clone(); }
 
-CloningPtr::CloningPtr(const CloningPtr &p) : value(p.value)
+inline CloningPtr::CloningPtr(const CloningPtr &p) : value(p.value)
 { Cloning::reference(value); }
 
-CloningPtr::~CloningPtr()
+inline CloningPtr::~CloningPtr()
 { Cloning::unreference(value); }
 
-CloningPtr &CloningPtr::operator=(const Cloning &p)
+inline CloningPtr &CloningPtr::operator=(const Cloning &p)
 {
  if(value == &p) return *this;
  Cloning::unreference(value);
@@ -134,7 +134,7 @@ CloningPtr &CloningPtr::operator=(const Cloning &p)
  return *this;
 }
 
-CloningPtr &CloningPtr::operator=(const CloningPtr &p)
+inline CloningPtr &CloningPtr::operator=(const CloningPtr &p)
 {
  if(this == &p) return *this;
  if(value == p.value) return *this;
@@ -157,14 +157,14 @@ template <class T> CastPtr<T>::CastPtr(const CloningPtr &p) : CloningPtr(p) {}
 
 template <class T> CastPtr<T>::~CastPtr() {}
 
-template <class T> T *CastPtr<T>::operator->() const
+template <class T> inline T *CastPtr<T>::operator->() const
 {
  T *tp = dynamic_cast<T*>(value);
  if(tp == 0) throw bad_cast();
  return tp;
 }
 
-template <class T> T &CastPtr<T>::operator*() const
+template <class T> inline T &CastPtr<T>::operator*() const
 {
  T *tp = dynamic_cast<T*>(value);
  if(tp == 0) throw bad_cast();

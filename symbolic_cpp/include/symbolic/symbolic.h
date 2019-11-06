@@ -212,15 +212,15 @@ class Symbolic: public SymbolicProxy
 // Implementation for SymbolicInterface          //
 ///////////////////////////////////////////////////
 
-SymbolicInterface::SymbolicInterface()
+inline SymbolicInterface::SymbolicInterface()
 { simplified = expanded = 0; }
 
-SymbolicInterface::SymbolicInterface(const SymbolicInterface &s)
+inline SymbolicInterface::SymbolicInterface(const SymbolicInterface &s)
 { simplified = s.simplified; expanded = s.expanded; }
 
-SymbolicInterface::~SymbolicInterface() {}
+inline SymbolicInterface::~SymbolicInterface() {}
 
-const type_info &SymbolicInterface::type() const
+inline const type_info &SymbolicInterface::type() const
 { return typeid(*this); }
 
 
@@ -228,10 +228,10 @@ const type_info &SymbolicInterface::type() const
 // Implementation for CloningSymbolicInterface   //
 ///////////////////////////////////////////////////
 
-CloningSymbolicInterface::CloningSymbolicInterface()
+inline CloningSymbolicInterface::CloningSymbolicInterface()
  : SymbolicInterface(), Cloning() {}
 
-CloningSymbolicInterface::CloningSymbolicInterface(
+inline CloningSymbolicInterface::CloningSymbolicInterface(
                                        const CloningSymbolicInterface &s)
  : SymbolicInterface(s), Cloning(s) {}
 
@@ -239,69 +239,69 @@ CloningSymbolicInterface::CloningSymbolicInterface(
 // Implementation for SymbolicProxy              //
 ///////////////////////////////////////////////////
 
-SymbolicProxy::SymbolicProxy(const CloningSymbolicInterface &s)
+inline SymbolicProxy::SymbolicProxy(const CloningSymbolicInterface &s)
  : CastPtr<CloningSymbolicInterface>(s) {}
 
-SymbolicProxy::SymbolicProxy(const SymbolicProxy &s)
+inline SymbolicProxy::SymbolicProxy(const SymbolicProxy &s)
  : CastPtr<CloningSymbolicInterface>(s) {}
 
-SymbolicProxy::SymbolicProxy(const Number<void> &n)
+inline SymbolicProxy::SymbolicProxy(const Number<void> &n)
  : CastPtr<CloningSymbolicInterface>(n) {}
 
-SymbolicProxy::SymbolicProxy() {}
+inline SymbolicProxy::SymbolicProxy() {}
 
-void SymbolicProxy::print(ostream &o) const
+inline void SymbolicProxy::print(ostream &o) const
 { (*this)->print(o); }
 
-const type_info &SymbolicProxy::type() const
+inline const type_info &SymbolicProxy::type() const
 { return (*this)->type(); }
 
-Symbolic SymbolicProxy::subst(const Symbolic &x,
+inline Symbolic SymbolicProxy::subst(const Symbolic &x,
                               const Symbolic &y,int &n) const
 { return (*this)->subst(x,y,n); }
 
-Simplified SymbolicProxy::simplify() const
+inline Simplified SymbolicProxy::simplify() const
 {
  if((*this)->simplified) return *this;
  return (*this)->simplify();
 }
 
-int SymbolicProxy::compare(const Symbolic &s) const
+inline int SymbolicProxy::compare(const Symbolic &s) const
 { return (*this)->compare(s); }
 
-Symbolic SymbolicProxy::df(const Symbolic &s) const
+inline Symbolic SymbolicProxy::df(const Symbolic &s) const
 { return (*this)->df(s); }
 
-Symbolic SymbolicProxy::integrate(const Symbolic &s) const
+inline Symbolic SymbolicProxy::integrate(const Symbolic &s) const
 { return (*this)->integrate(s); }
 
-Symbolic SymbolicProxy::coeff(const Symbolic &s) const
+inline Symbolic SymbolicProxy::coeff(const Symbolic &s) const
 { return (*this)->coeff(s); }
 
-Expanded SymbolicProxy::expand() const
+inline Expanded SymbolicProxy::expand() const
 {
  if((*this)->expanded) return *this;
  return (*this)->expand();
 }
 
-int SymbolicProxy::commute(const Symbolic &s) const
+inline int SymbolicProxy::commute(const Symbolic &s) const
 { return (*this)->commute(s); }
 
-PatternMatches
+inline PatternMatches
 SymbolicProxy::match(const Symbolic &s, const list<Symbolic> &p) const
 { return (*this)->match(s,p); }
 
-PatternMatches
+inline PatternMatches
 SymbolicProxy::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 { return (*this)->match_parts(s,p); }
 
-SymbolicProxy &SymbolicProxy::operator=(const CloningSymbolicInterface &s)
+inline SymbolicProxy &SymbolicProxy::operator=(const CloningSymbolicInterface &s)
 {
  CastPtr<CloningSymbolicInterface>::operator=(s);
  return *this;
 }
 
-SymbolicProxy &SymbolicProxy::operator=(const SymbolicProxy &s)
+inline SymbolicProxy &SymbolicProxy::operator=(const SymbolicProxy &s)
 {
  CastPtr<CloningSymbolicInterface>::operator=(s);
  return *this;
@@ -314,13 +314,13 @@ SymbolicProxy &SymbolicProxy::operator=(const SymbolicProxy &s)
 // these constructors should only be used by
 // SymbolicInterface::simplify()
 
-Simplified::Simplified(const CloningSymbolicInterface &s) : SymbolicProxy(s)
+inline Simplified::Simplified(const CloningSymbolicInterface &s) : SymbolicProxy(s)
 { (*this)->simplified = 1; }
 
-Simplified::Simplified(const SymbolicProxy &s) : SymbolicProxy(s)
+inline Simplified::Simplified(const SymbolicProxy &s) : SymbolicProxy(s)
 { (*this)->simplified = 1; }
 
-Simplified::Simplified(const Number<void> &n) : SymbolicProxy(n)
+inline Simplified::Simplified(const Number<void> &n) : SymbolicProxy(n)
 { (*this)->simplified = 1; }
 
 ///////////////////////////////////////////////////
@@ -330,25 +330,25 @@ Simplified::Simplified(const Number<void> &n) : SymbolicProxy(n)
 // these constructors should only be used by
 // SymbolicInterface::expand()
 
-Expanded::Expanded(const CloningSymbolicInterface &s) : SymbolicProxy(s)
+inline Expanded::Expanded(const CloningSymbolicInterface &s) : SymbolicProxy(s)
 { (*this)->expanded = 1; }
 
-Expanded::Expanded(const SymbolicProxy &s) : SymbolicProxy(s)
+inline Expanded::Expanded(const SymbolicProxy &s) : SymbolicProxy(s)
 { (*this)->expanded = 1; }
 
-Expanded::Expanded(const Number<void> &n) : SymbolicProxy(n)
+inline Expanded::Expanded(const Number<void> &n) : SymbolicProxy(n)
 { (*this)->expanded = 1; }
 
 ///////////////////////////////////////////////////
 // Implementation for Symbolic                   //
 ///////////////////////////////////////////////////
 
-int Symbolic::auto_expand = 1;
-int Symbolic::subst_count = 0;
+inline int Symbolic::auto_expand = 1;
+inline int Symbolic::subst_count = 0;
 
-Symbolic::Symbolic() : SymbolicProxy(Number<int>(0)) {}
+inline Symbolic::Symbolic() : SymbolicProxy(Number<int>(0)) {}
 
-Symbolic::Symbolic(const Symbolic &s) : SymbolicProxy(s)
+inline Symbolic::Symbolic(const Symbolic &s) : SymbolicProxy(s)
 {
  if(s.type() == typeid(SymbolicMatrix))
   // s is presumed const, so indexing via operator()
@@ -359,10 +359,10 @@ Symbolic::Symbolic(const Symbolic &s) : SymbolicProxy(s)
  }
 }
 
-Symbolic::Symbolic(const CloningSymbolicInterface &s)
+inline Symbolic::Symbolic(const CloningSymbolicInterface &s)
 { *this = s; }
 
-Symbolic::Symbolic(const SymbolicProxy &s) : SymbolicProxy(s)
+inline Symbolic::Symbolic(const SymbolicProxy &s) : SymbolicProxy(s)
 {
  if(s.type() == typeid(SymbolicMatrix))
   // s is presumed const, so indexing via operator()
@@ -373,51 +373,51 @@ Symbolic::Symbolic(const SymbolicProxy &s) : SymbolicProxy(s)
  }
 }
 
-Symbolic::Symbolic(const Number<void> &n) : SymbolicProxy(n) {}
+inline Symbolic::Symbolic(const Number<void> &n) : SymbolicProxy(n) {}
 
-Symbolic::Symbolic(const int &i)
+inline Symbolic::Symbolic(const int &i)
  : SymbolicProxy(Number<int>(i).simplify()) {}
 
-Symbolic::Symbolic(const double &d)
+inline Symbolic::Symbolic(const double &d)
  : SymbolicProxy(Number<double>(d).simplify()) {}
 
-Symbolic::Symbolic(const string &s)
+inline Symbolic::Symbolic(const string &s)
  : SymbolicProxy(Symbol(s).simplify()) {}
 
-Symbolic::Symbolic(const char *s)
+inline Symbolic::Symbolic(const char *s)
  : SymbolicProxy(Symbol(s).simplify()) {}
 
-Symbolic::Symbolic(const string &s,int n)
+inline Symbolic::Symbolic(const string &s,int n)
  : SymbolicProxy(SymbolicMatrix(s,n,1)) {}
 
-Symbolic::Symbolic(const char *s,int n)
+inline Symbolic::Symbolic(const char *s,int n)
  : SymbolicProxy(SymbolicMatrix(s,n,1)) {}
 
-Symbolic::Symbolic(const Symbolic &s,int n)
+inline Symbolic::Symbolic(const Symbolic &s,int n)
  : SymbolicProxy(SymbolicMatrix(s,n,1)) {}
 
-Symbolic::Symbolic(const string &s,int n,int m)
+inline Symbolic::Symbolic(const string &s,int n,int m)
  : SymbolicProxy(SymbolicMatrix(s,n,m)) {}
 
-Symbolic::Symbolic(const char *s,int n,int m)
+inline Symbolic::Symbolic(const char *s,int n,int m)
  : SymbolicProxy(SymbolicMatrix(s,n,m)) {}
 
-Symbolic::Symbolic(const Symbolic &s,int n,int m)
+inline Symbolic::Symbolic(const Symbolic &s,int n,int m)
  : SymbolicProxy(SymbolicMatrix(s,n,m)) {}
 
-Symbolic::Symbolic(const list<Symbolic> &l)
+inline Symbolic::Symbolic(const list<Symbolic> &l)
 {
  list<list<Symbolic> > ll;
  ll.push_back(l);
  (*this) = SymbolicMatrix(ll);
 }
 
-Symbolic::Symbolic(const list<list<Symbolic> > &l)
+inline Symbolic::Symbolic(const list<list<Symbolic> > &l)
  : SymbolicProxy(SymbolicMatrix(l)) {}
 
-Symbolic::~Symbolic() {}
+inline Symbolic::~Symbolic() {}
 
-SymbolicProxy &Symbolic::operator=(const CloningSymbolicInterface &s)
+inline SymbolicProxy &Symbolic::operator=(const CloningSymbolicInterface &s)
 {
 // cout << "*** " << &s << " " ; /*s.print(cout);*/ cout << endl;
 #if 1
@@ -429,34 +429,34 @@ SymbolicProxy &Symbolic::operator=(const CloningSymbolicInterface &s)
  return *this;
 }
 
-SymbolicProxy &Symbolic::operator=(const SymbolicProxy &s)
+inline SymbolicProxy &Symbolic::operator=(const SymbolicProxy &s)
 { return SymbolicProxy::operator=(s); }
 
-SymbolicProxy &Symbolic::operator=(const int &i)
+inline SymbolicProxy &Symbolic::operator=(const int &i)
 { return *this = Number<int>(i); }
 
-SymbolicProxy &Symbolic::operator=(const double &d)
+inline SymbolicProxy &Symbolic::operator=(const double &d)
 { return *this = Number<double>(d); }
 
-SymbolicProxy &Symbolic::operator=(const string &s)
+inline SymbolicProxy &Symbolic::operator=(const string &s)
 { return *this = Symbolic(s); }
 
-SymbolicProxy &Symbolic::operator=(const char *s)
+inline SymbolicProxy &Symbolic::operator=(const char *s)
 { return *this = Symbolic(s); }
 
-SymbolicProxy &Symbolic::operator=(const list<Symbolic> &l)
+inline SymbolicProxy &Symbolic::operator=(const list<Symbolic> &l)
 { return *this = Symbolic(l); }
 
-SymbolicProxy &Symbolic::operator=(const list<list<Symbolic> > &l)
+inline SymbolicProxy &Symbolic::operator=(const list<list<Symbolic> > &l)
 { return *this = Symbolic(l); }
 
-Symbolic Symbolic::operator[](const Equation &p) const
+inline Symbolic Symbolic::operator[](const Equation &p) const
 { return subst(p); }
 
-Symbolic Symbolic::operator[](const Equations &l) const
+inline Symbolic Symbolic::operator[](const Equations &l) const
 { return subst(l); }
 
-Symbolic Symbolic::operator[](const Symbolic &p) const
+inline Symbolic Symbolic::operator[](const Symbolic &p) const
 {
  if(type() == typeid(Symbol))
   return CastPtr<const Symbol>(*this)->operator[](p);
@@ -473,7 +473,7 @@ Symbolic Symbolic::operator[](const Symbolic &p) const
  return *this;
 }
 
-Symbolic Symbolic::operator[](const list<Symbolic> &l) const
+inline Symbolic Symbolic::operator[](const list<Symbolic> &l) const
 {
  Symbolic result(*this);
  for(list<Symbolic>::const_iterator i=l.begin();i!=l.end();++i)
@@ -481,7 +481,7 @@ Symbolic Symbolic::operator[](const list<Symbolic> &l) const
  return result;
 }
 
-Symbolic &Symbolic::operator()(int i)
+inline Symbolic &Symbolic::operator()(int i)
 {
  if(type() != typeid(SymbolicMatrix))
  {
@@ -504,7 +504,7 @@ Symbolic &Symbolic::operator()(int i)
  return *this;
 }
 
-Symbolic &Symbolic::operator()(int i,int j)
+inline Symbolic &Symbolic::operator()(int i,int j)
 {
  if(type() != typeid(SymbolicMatrix))
  {
@@ -521,7 +521,7 @@ Symbolic &Symbolic::operator()(int i,int j)
  return (*m)[i][j];
 }
 
-const Symbolic &Symbolic::operator()(int i) const
+inline const Symbolic &Symbolic::operator()(int i) const
 {
  if(type() != typeid(SymbolicMatrix))
  {
@@ -544,7 +544,7 @@ const Symbolic &Symbolic::operator()(int i) const
  return *this;
 }
 
-const Symbolic &Symbolic::operator()(int i,int j) const
+inline const Symbolic &Symbolic::operator()(int i,int j) const
 {
  if(type() != typeid(SymbolicMatrix))
  {
@@ -561,16 +561,16 @@ const Symbolic &Symbolic::operator()(int i,int j) const
  return (*m)[i][j];
 }
 
-Symbolic Symbolic::subst(const Symbolic &x,const Symbolic &y,int &n) const
+inline Symbolic Symbolic::subst(const Symbolic &x,const Symbolic &y,int &n) const
 { return SymbolicProxy::subst(x,y,n); }
 
-Symbolic Symbolic::subst(const Symbolic &x,const int &j,int &n) const
+inline Symbolic Symbolic::subst(const Symbolic &x,const int &j,int &n) const
 { return subst(x,Number<int>(j),n); }
 
-Symbolic Symbolic::subst(const Symbolic &x,const double &d,int &n) const
+inline Symbolic Symbolic::subst(const Symbolic &x,const double &d,int &n) const
 { return subst(x,Number<double>(d),n); }
 
-Symbolic Symbolic::subst(const Equation &e,int &n) const
+inline Symbolic Symbolic::subst(const Equation &e,int &n) const
 {
  int nsubs = 0;
  Symbolic lhs, rhs, r;
@@ -589,7 +589,7 @@ Symbolic Symbolic::subst(const Equation &e,int &n) const
  return r;
 }
 
-Symbolic Symbolic::subst(const Equations &l,int &n) const
+inline Symbolic Symbolic::subst(const Equations &l,int &n) const
 {
  Symbolic result(*this);
  for(Equations::const_iterator i=l.begin();i!=l.end();++i)
@@ -597,7 +597,7 @@ Symbolic Symbolic::subst(const Equations &l,int &n) const
  return result;
 }
 
-Symbolic Symbolic::subst_all(const Symbolic &x,
+inline Symbolic Symbolic::subst_all(const Symbolic &x,
                              const Symbolic &y,int &n) const
 {
  int n1 = n;
@@ -610,7 +610,7 @@ Symbolic Symbolic::subst_all(const Symbolic &x,
  return r;
 }
 
-Symbolic Symbolic::subst_all(const Equation &e,int &n) const
+inline Symbolic Symbolic::subst_all(const Equation &e,int &n) const
 {
  int n1 = n;
  Symbolic r = subst(e,n);
@@ -622,7 +622,7 @@ Symbolic Symbolic::subst_all(const Equation &e,int &n) const
  return r;
 }
 
-Symbolic Symbolic::subst_all(const Equations &l,int &n) const
+inline Symbolic Symbolic::subst_all(const Equations &l,int &n) const
 {
  int n1;
  Symbolic result(*this);
@@ -636,22 +636,22 @@ Symbolic Symbolic::subst_all(const Equations &l,int &n) const
  return result;
 }
 
-Symbolic Symbolic::coeff(const Symbolic &s) const
+inline Symbolic Symbolic::coeff(const Symbolic &s) const
 { return SymbolicProxy::coeff(s); }
 
-Symbolic Symbolic::coeff(const Symbolic &s,int i) const
+inline Symbolic Symbolic::coeff(const Symbolic &s,int i) const
 {
  if(i == 0) return subst(s,Number<int>(0));
  return SymbolicProxy::coeff(s^i);
 }
 
-Symbolic Symbolic::coeff(const int &i) const
+inline Symbolic Symbolic::coeff(const int &i) const
 { return coeff(Number<int>(i)); }
 
-Symbolic Symbolic::coeff(const double &d) const
+inline Symbolic Symbolic::coeff(const double &d) const
 { return coeff(Number<double>(d)); }
 
-Symbolic Symbolic::commutative(int c) const
+inline Symbolic Symbolic::commutative(int c) const
 {
  if(type() == typeid(Symbol))
   return CastPtr<const Symbol>(*this)->commutative(c);
@@ -668,7 +668,7 @@ Symbolic Symbolic::commutative(int c) const
  return *this;
 }
 
-Symbolic Symbolic::operator~() const
+inline Symbolic Symbolic::operator~() const
 {
  if(type() == typeid(Symbol))
   return CastPtr<const Symbol>(*this)->operator~();
@@ -685,7 +685,7 @@ Symbolic Symbolic::operator~() const
  return *this;
 }
 
-Symbolic::operator int(void) const
+inline Symbolic::operator int(void) const
 {
  if(type() == typeid(Numeric) &&
     Number<void>(*this).numerictype() == typeid(int))
@@ -695,7 +695,7 @@ Symbolic::operator int(void) const
  return 0;
 }
 
-Symbolic::operator double(void) const
+inline Symbolic::operator double(void) const
 {
  if(type() == typeid(Numeric) &&
     Number<void>(*this).numerictype() == typeid(double))
@@ -716,7 +716,7 @@ Symbolic::operator double(void) const
  return 0.0;
 }
 
-Symbolic Symbolic::operator|(const Symbolic &s) const
+inline Symbolic Symbolic::operator|(const Symbolic &s) const
 {
  if(rows() != s.rows() || columns() != s.columns() ||
     (rows() != 1 && columns() != 1))
@@ -735,7 +735,7 @@ Symbolic Symbolic::operator|(const Symbolic &s) const
   return ((*m1)(0) | (*m2)(0));
 }
 
-Symbolic Symbolic::operator%(const Symbolic &s) const
+inline Symbolic Symbolic::operator%(const Symbolic &s) const
 {
  if(rows() != s.rows() || columns() != s.columns() ||
     (rows() != 1 && columns() != 1))
@@ -754,19 +754,19 @@ Symbolic Symbolic::operator%(const Symbolic &s) const
   return SymbolicMatrix((*m1)(0) % (*m2)(0));
 }
 
-int Symbolic::rows() const
+inline int Symbolic::rows() const
 {
  if(type() != typeid(SymbolicMatrix)) return 1;
  return CastPtr<const SymbolicMatrix>(*this)->rows();
 }
 
-int Symbolic::columns() const
+inline int Symbolic::columns() const
 {
  if(type() != typeid(SymbolicMatrix)) return 1;
  return CastPtr<const SymbolicMatrix>(*this)->cols();
 }
 
-Symbolic Symbolic::row(int i) const
+inline Symbolic Symbolic::row(int i) const
 {
  if(type() != typeid(SymbolicMatrix))
  {
@@ -779,7 +779,7 @@ Symbolic Symbolic::row(int i) const
  return SymbolicMatrix(m.transpose());
 }
 
-Symbolic Symbolic::column(int i) const
+inline Symbolic Symbolic::column(int i) const
 {
  if(type() != typeid(SymbolicMatrix))
  {
@@ -791,31 +791,31 @@ Symbolic Symbolic::column(int i) const
  return SymbolicMatrix((*CastPtr<const SymbolicMatrix>(*this))(i));
 }
 
-Symbolic Symbolic::identity() const
+inline Symbolic Symbolic::identity() const
 {
  if(type() != typeid(SymbolicMatrix)) return Symbolic(1);
  return SymbolicMatrix(CastPtr<SymbolicMatrix>(**this)->identity());
 }
 
-Symbolic Symbolic::transpose() const
+inline Symbolic Symbolic::transpose() const
 {
  if(type() != typeid(SymbolicMatrix)) return *this;
  return SymbolicMatrix(CastPtr<const SymbolicMatrix>(*this)->transpose());
 }
 
-Symbolic Symbolic::trace() const
+inline Symbolic Symbolic::trace() const
 {
  if(type() != typeid(SymbolicMatrix)) return *this;
  return CastPtr<const SymbolicMatrix>(*this)->trace();
 }
 
-Symbolic Symbolic::determinant() const
+inline Symbolic Symbolic::determinant() const
 {
  if(type() != typeid(SymbolicMatrix)) return *this;
  return CastPtr<const SymbolicMatrix>(*this)->determinant();
 }
 
-Symbolic Symbolic::vec() const
+inline Symbolic Symbolic::vec() const
 {
  if(type() != typeid(SymbolicMatrix))
  {
@@ -826,7 +826,7 @@ Symbolic Symbolic::vec() const
  return SymbolicMatrix(CastPtr<const SymbolicMatrix>(*this)->vec());
 }
 
-Symbolic Symbolic::kron(const Symbolic &s) const
+inline Symbolic Symbolic::kron(const Symbolic &s) const
 {
  if(type() != typeid(SymbolicMatrix) ||
     s.type() != typeid(SymbolicMatrix))
@@ -839,7 +839,7 @@ Symbolic Symbolic::kron(const Symbolic &s) const
  return SymbolicMatrix(m1->kron(*m2));
 }
 
-Symbolic Symbolic::dsum(const Symbolic &s) const
+inline Symbolic Symbolic::dsum(const Symbolic &s) const
 {
  if(type() != typeid(SymbolicMatrix) ||
     s.type() != typeid(SymbolicMatrix))
@@ -852,7 +852,7 @@ Symbolic Symbolic::dsum(const Symbolic &s) const
  return SymbolicMatrix(m1->dsum(*m2));
 }
 
-Symbolic Symbolic::hadamard(const Symbolic &s) const
+inline Symbolic Symbolic::hadamard(const Symbolic &s) const
 {
  if(type() != typeid(SymbolicMatrix) ||
     s.type() != typeid(SymbolicMatrix))
@@ -865,7 +865,7 @@ Symbolic Symbolic::hadamard(const Symbolic &s) const
  return SymbolicMatrix(m1->hadamard(*m2));
 }
 
-Symbolic Symbolic::inverse() const
+inline Symbolic Symbolic::inverse() const
 {
  if(type() != typeid(SymbolicMatrix)) return 1/(*this);
  CastPtr<const SymbolicMatrix> m(*this);

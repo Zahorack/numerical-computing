@@ -173,12 +173,12 @@ template <> Number<void> one(Number<void>);
 #define SYMBOLIC_CPLUSPLUS_NUMBER_DEFINE
 #define SYMBOLIC_CPLUSPLUS_NUMBER
 
-Numeric::Numeric() : CloningSymbolicInterface() {}
+inline Numeric::Numeric() : CloningSymbolicInterface() {}
 
-Numeric::Numeric(const Numeric &n) : CloningSymbolicInterface(n) {}
+inline Numeric::Numeric(const Numeric &n) : CloningSymbolicInterface(n) {}
 
 // Template specialization for Rational<Number<void> >
-template <> Rational<Number<void> >::operator double() const
+template <> inline Rational<Number<void> >::operator double() const
 {
  pair<Number<void>,Number<void> > pr = p.match(p,q);
  if(pr.first.numerictype() == typeid(int))
@@ -203,7 +203,7 @@ template <> Rational<Number<void> >::operator double() const
 // Implementation of Numeric      //
 ////////////////////////////////////
 
-pair<Number<void>,Number<void> >
+inline pair<Number<void>,Number<void> >
 Numeric::match(const Numeric &n1,const Numeric &n2)
 {
  const type_info &t1 = n1.numerictype();
@@ -309,13 +309,13 @@ Numeric::match(const Numeric &n1,const Numeric &n2)
  return pair<Number<void>,Number<void> >(n1,n2);
 }
 
-Symbolic Numeric::subst(const Symbolic &x,const Symbolic &y,int &n) const
+inline Symbolic Numeric::subst(const Symbolic &x,const Symbolic &y,int &n) const
 {
  if(*this == x) { ++n; return y; }
  return *this;
 }
 
-int Numeric::compare(const Symbolic &s) const
+inline int Numeric::compare(const Symbolic &s) const
 {
  if(s.type() != type()) return 0;
  pair<Number<void>,Number<void> >
@@ -323,25 +323,25 @@ int Numeric::compare(const Symbolic &s) const
  return p.first->cmp(*(p.second));
 }
 
-Symbolic Numeric::df(const Symbolic &s) const
+inline Symbolic Numeric::df(const Symbolic &s) const
 { return Number<int>(0); }
 
-Symbolic Numeric::integrate(const Symbolic &s) const
+inline Symbolic Numeric::integrate(const Symbolic &s) const
 { return Symbolic(*this) * s; }
 
-Symbolic Numeric::coeff(const Symbolic &s) const
+inline Symbolic Numeric::coeff(const Symbolic &s) const
 {
  if(s.type() == typeid(Numeric)) return *this / Number<void>(s);
  return Number<int>(0);
 }
 
-Expanded Numeric::expand() const
+inline Expanded Numeric::expand() const
 { return *this; }
 
-int Numeric::commute(const Symbolic &s) const
+inline int Numeric::commute(const Symbolic &s) const
 { return 1; }
 
-PatternMatches
+inline PatternMatches
 Numeric::match(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l;
@@ -350,7 +350,7 @@ Numeric::match(const Symbolic &s, const list<Symbolic> &p) const
  return l;
 }
 
-PatternMatches
+inline PatternMatches
 Numeric::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 { return s.match(*this, p); }
 
@@ -358,41 +358,41 @@ Numeric::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 // Implementation of Number       //
 ////////////////////////////////////
 
-template <class T> Number<T>::Number() : n()
+template <class T> inline Number<T>::Number() : n()
 { simplified = expanded = 1; }
 
-template <class T> Number<T>::Number(const Number &n)
+template <class T> inline Number<T>::Number(const Number &n)
  : Numeric(n), n(n.n) {}
 
-template <class T> Number<T>::Number(const T &t) : n(t)
+template <class T> inline Number<T>::Number(const T &t) : n(t)
 { simplified = 0; expanded = 1; }
 
-template <class T> Number<T>::~Number() {}
+template <class T> inline Number<T>::~Number() {}
 
-template <class T> Number<T> &Number<T>::operator=(const Number &n)
+template <class T> inline Number<T> &Number<T>::operator=(const Number &n)
 {
  if(this != &n) n = n.n;
  return *this;
 }
 
-template <class T> Number<T> &Number<T>::operator=(const T &t)
+template <class T> inline Number<T> &Number<T>::operator=(const T &t)
 { n = t; return *this; }
 
-template <class T> void Number<T>::print(ostream &o) const
+template <class T> void inline Number<T>::print(ostream &o) const
 { o << n; }
 
-template <class T> const type_info &Number<T>::type() const
+template <class T> inline const type_info &Number<T>::type() const
 { return typeid(Numeric); }
 
-template <class T> const type_info &Number<T>::numerictype() const
+template <class T> inline const type_info &Number<T>::numerictype() const
 { return typeid(T); }
 
 template <class T>
-Simplified Number<T>::simplify() const
+inline Simplified Number<T>::simplify() const
 { return *this; }
 
 template <>
-Simplified Number<Verylong>::simplify() const
+inline Simplified Number<Verylong>::simplify() const
 {
  if(n <= Verylong(numeric_limits<int>::max())
     && n > Verylong(numeric_limits<int>::min()))
@@ -401,13 +401,13 @@ Simplified Number<Verylong>::simplify() const
 }
 
 template <>
-Simplified Number<Rational<Number<void> > >::simplify() const
+inline Simplified Number<Rational<Number<void> > >::simplify() const
 {
  if(n.den().isOne()) return *(n.num());
  return *this;
 }
 
-template <class T> Number<void> Number<T>::add(const Numeric &x) const
+template <class T> inline Number<void> Number<T>::add(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -415,7 +415,7 @@ template <class T> Number<void> Number<T>::add(const Numeric &x) const
  return Number<T>(n + p->n);
 }
 
-template <class T> Number<void> Number<T>::mul(const Numeric &x) const
+template <class T> inline Number<void> Number<T>::mul(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -423,7 +423,7 @@ template <class T> Number<void> Number<T>::mul(const Numeric &x) const
  return Number<T>(n * p->n);
 }
 
-template <class T> Number<void> Number<T>::div(const Numeric &x) const
+template <class T> inline Number<void> Number<T>::div(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -431,7 +431,7 @@ template <class T> Number<void> Number<T>::div(const Numeric &x) const
  return Number<T>(n / p->n);
 }
 
-template <class T> Number<void> Number<T>::mod(const Numeric &x) const
+template <class T> inline Number<void> Number<T>::mod(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -439,7 +439,7 @@ template <class T> Number<void> Number<T>::mod(const Numeric &x) const
  return Number<T>(n - p->n * (n / p->n));
 }
 
-template <> Number<void> Number<int>::add(const Numeric &x) const
+template <> inline Number<void> Number<int>::add(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -451,7 +451,7 @@ template <> Number<void> Number<int>::add(const Numeric &x) const
  return Number<int>(n + p->n);
 }
 
-template <> Number<void> Number<int>::mul(const Numeric &x) const
+template <> inline Number<void> Number<int>::mul(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -462,7 +462,7 @@ template <> Number<void> Number<int>::mul(const Numeric &x) const
  return Number<int>(product);
 }
 
-template <> Number<void> Number<int>::div(const Numeric &x) const
+template <> inline Number<void> Number<int>::div(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -473,21 +473,21 @@ template <> Number<void> Number<int>::div(const Numeric &x) const
  return Number<int>(n / p->n);
 }
 
-template <> Number<void> Number<int>::mod(const Numeric &x) const
+template <> inline Number<void> Number<int>::mod(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
  return Number<int>(n % CastPtr<const Number<int> >(x)->n);
 }
 
-template <> Number<void> Number<double>::mod(const Numeric &x) const
+template <> inline Number<void> Number<double>::mod(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
  return Number<double>(fmod(n,CastPtr<const Number<double> >(x)->n));
 }
 
-template <> Number<void> Number<Verylong>::div(const Numeric &x) const
+template <> inline Number<void> Number<Verylong>::div(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -498,16 +498,16 @@ template <> Number<void> Number<Verylong>::div(const Numeric &x) const
  return Number<Verylong>(n / p->n);
 }
 
-template <class T> int Number<T>::isZero() const
+template <class T> inline int Number<T>::isZero() const
 { return (n == zero(T())); }
 
-template <class T> int Number<T>::isOne() const
+template <class T> inline int Number<T>::isOne() const
 { return (n == one(T())); }
 
-template <class T> int Number<T>::isNegative() const
+template <class T> inline int Number<T>::isNegative() const
 { return (n < zero(T())); }
 
-template <class T> int Number<T>::cmp(const Numeric &x) const
+template <class T> inline int Number<T>::cmp(const Numeric &x) const
 {
  if(numerictype() != x.numerictype())
    throw SymbolicError(SymbolicError::IncompatibleNumeric);
@@ -519,168 +519,168 @@ template <class T> int Number<T>::cmp(const Numeric &x) const
 // Implementation of Number<void> //
 ////////////////////////////////////
 
-Number<void>::Number() : CastPtr<Numeric>(Number<int>(0)) {}
+inline Number<void>::Number() : CastPtr<Numeric>(Number<int>(0)) {}
 
-Number<void>::Number(const Number &n) : CastPtr<Numeric>(n) {}
+inline Number<void>::Number(const Number &n) : CastPtr<Numeric>(n) {}
 
-Number<void>::Number(const Numeric &n) : CastPtr<Numeric>(n) {}
+inline Number<void>::Number(const Numeric &n) : CastPtr<Numeric>(n) {}
 
-Number<void>::Number(const Symbolic &n) : CastPtr<Numeric>(Number<int>(0))
+inline Number<void>::Number(const Symbolic &n) : CastPtr<Numeric>(Number<int>(0))
 {
  if(n.type() != typeid(Numeric))
    throw SymbolicError(SymbolicError::NotNumeric);
  CastPtr<Numeric>::operator=(n);
 }
 
-Number<void>::~Number() {}
+inline Number<void>::~Number() {}
 
-const type_info &Number<void>::numerictype() const
+inline const type_info &Number<void>::numerictype() const
 { return (*this)->numerictype(); }
 
-int Number<void>::isZero() const
+inline int Number<void>::isZero() const
 { return (*this)->isZero(); }
 
-int Number<void>::isOne() const
+inline int Number<void>::isOne() const
 { return (*this)->isOne(); }
 
-int Number<void>::isNegative() const
+inline int Number<void>::isNegative() const
 { return (*this)->isNegative(); }
 
-pair<Number<void>,Number<void> >
+inline pair<Number<void>,Number<void> >
 Number<void>::match(const Numeric &n1,const Numeric &n2)
 { return Numeric::match(n1,n2); }
 
-pair<Number<void>,Number<void> >
+inline pair<Number<void>,Number<void> >
 Number<void>::match(const Number<void> &n1,const Number<void> &n2)
 { return Numeric::match(*n1,*n2); }
 
-Number<void> Number<void>::operator+(const Numeric &n) const
+inline Number<void> Number<void>::operator+(const Numeric &n) const
 {
  pair<Number<void>,Number<void> > p = Number<void>::match(*this,n);
  return p.first->add(*(p.second));
 }
 
-Number<void> Number<void>::operator-(const Numeric &n) const
+inline Number<void> Number<void>::operator-(const Numeric &n) const
 {
  pair<Number<void>,Number<void> > p = Number<void>::match(*this,n);
  return p.first->add(*(p.second));
 }
 
-Number<void> Number<void>::operator*(const Numeric &n) const
+inline Number<void> Number<void>::operator*(const Numeric &n) const
 {
  pair<Number<void>,Number<void> > p = Number<void>::match(*this,n);
  return p.first->mul(*(p.second));
 }
 
-Number<void> Number<void>::operator/(const Numeric &n) const
+inline Number<void> Number<void>::operator/(const Numeric &n) const
 {
  pair<Number<void>,Number<void> > p = Number<void>::match(*this,n);
  return p.first->div(*(p.second));
 }
 
-Number<void> Number<void>::operator%(const Numeric &n) const
+inline Number<void> Number<void>::operator%(const Numeric &n) const
 {
  pair<Number<void>,Number<void> > p = Number<void>::match(*this,n);
  return p.first->mod(*(p.second));
 }
 
-Number<void> &Number<void>::operator+=(const Numeric &n)
+inline Number<void> &Number<void>::operator+=(const Numeric &n)
 { return *this = *this + n; }
 
-Number<void> &Number<void>::operator*=(const Numeric &n)
+inline Number<void> &Number<void>::operator*=(const Numeric &n)
 { return *this = *this * n; }
 
-Number<void> &Number<void>::operator/=(const Numeric &n)
+inline Number<void> &Number<void>::operator/=(const Numeric &n)
 { return *this = *this / n; }
 
-Number<void> &Number<void>::operator%=(const Numeric &n)
+inline Number<void> &Number<void>::operator%=(const Numeric &n)
 { return *this = *this % n; }
 
-int Number<void>::operator==(const Numeric &n) const
+inline int Number<void>::operator==(const Numeric &n) const
 {
  pair<Number<void>,Number<void> > p = Number<void>::match(*(*this),n);
  return p.first->compare(*(p.second));
 }
 
-int Number<void>::operator<(const Numeric &n) const
+inline int Number<void>::operator<(const Numeric &n) const
 {
  pair<Number<void>,Number<void> > p = Number<void>::match(*(*this),n);
  return (p.first - p.second).isNegative();
 }
 
-int Number<void>::operator>(const Numeric &n) const
+inline int Number<void>::operator>(const Numeric &n) const
 { return !(*this < n) && !(*this == n); }
 
-int Number<void>::operator<=(const Numeric &n) const
+inline int Number<void>::operator<=(const Numeric &n) const
 { return (*this < n) || (*this == n); }
 
-int Number<void>::operator>=(const Numeric &n) const
+inline int Number<void>::operator>=(const Numeric &n) const
 { return !(*this < n); }
 
-Number<void> Number<void>::operator+(const Number<void> &n) const
+inline Number<void> Number<void>::operator+(const Number<void> &n) const
 { return operator+(*n); }
 
-Number<void> Number<void>::operator-(const Number<void> &n) const
+inline Number<void> Number<void>::operator-(const Number<void> &n) const
 { return operator-(*n); }
 
-Number<void> Number<void>::operator*(const Number<void> &n) const
+inline Number<void> Number<void>::operator*(const Number<void> &n) const
 { return operator*(*n); }
 
-Number<void> Number<void>::operator/(const Number<void> &n) const
+inline Number<void> Number<void>::operator/(const Number<void> &n) const
 { return operator/(*n); }
 
-Number<void> Number<void>::operator%(const Number<void> &n) const
+inline Number<void> Number<void>::operator%(const Number<void> &n) const
 { return operator%(*n); }
 
-Number<void> &Number<void>::operator+=(const Number<void> &n)
+inline Number<void> &Number<void>::operator+=(const Number<void> &n)
 { return *this = *this + n; }
 
-Number<void> &Number<void>::operator*=(const Number<void> &n)
+inline Number<void> &Number<void>::operator*=(const Number<void> &n)
 { return *this = *this * n; }
 
-Number<void> &Number<void>::operator/=(const Number<void> &n)
+inline Number<void> &Number<void>::operator/=(const Number<void> &n)
 { return *this = *this / n; }
 
-Number<void> &Number<void>::operator%=(const Number<void> &n)
+inline Number<void> &Number<void>::operator%=(const Number<void> &n)
 { return *this = *this % n; }
 
-int Number<void>::operator==(const Number<void> &n) const
+inline int Number<void>::operator==(const Number<void> &n) const
 { return operator==(*n); }
 
-int Number<void>::operator<(const Number<void> &n) const
+inline int Number<void>::operator<(const Number<void> &n) const
 { return operator<(*n); }
 
-int Number<void>::operator>(const Number<void> &n) const
+inline int Number<void>::operator>(const Number<void> &n) const
 { return operator>(*n); }
 
-int Number<void>::operator<=(const Number<void> &n) const
+inline int Number<void>::operator<=(const Number<void> &n) const
 { return operator<=(*n); }
 
-int Number<void>::operator>=(const Number<void> &n) const
+inline int Number<void>::operator>=(const Number<void> &n) const
 { return operator>=(*n); }
 
-Numeric &Number<void>::operator*() const
+inline Numeric &Number<void>::operator*() const
 { return CastPtr<Numeric>::operator*(); }
 
-template <> Number<void> zero(Number<void>)
+ template <> inline Number<void> zero(Number<void>)
 { return Number<int>(0); }
 
-template <> Number<void> one(Number<void>)
+ template <> inline Number<void> one(Number<void>)
 { return Number<int>(1); }
 
-Number<void> operator+(const Numeric &n1,const Number<void> &n2)
+inline Number<void> operator+(const Numeric &n1,const Number<void> &n2)
 { return Number<void>(n1) + n2; }
 
-Number<void> operator-(const Numeric &n1,const Number<void> &n2)
+inline Number<void> operator-(const Numeric &n1,const Number<void> &n2)
 { return Number<void>(n1) - n2; }
 
-Number<void> operator*(const Numeric &n1,const Number<void> &n2)
+inline Number<void> operator*(const Numeric &n1,const Number<void> &n2)
 { return Number<void>(n1) * n2; }
 
-Number<void> operator/(const Numeric &n1,const Number<void> &n2)
+inline Number<void> operator/(const Numeric &n1,const Number<void> &n2)
 { return Number<void>(n1) / n2; }
 
-Number<void> operator%(const Numeric &n1,const Number<void> &n2)
+inline Number<void> operator%(const Numeric &n1,const Number<void> &n2)
 { return Number<void>(n1) % n2; }
 
 #endif

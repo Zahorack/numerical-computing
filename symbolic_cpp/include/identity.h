@@ -51,23 +51,23 @@ template <> double one(double);
 
 #define LIBSYMBOLICCPLUSPLUS
 
-template <> char zero(char) { return (char) 0; }
-template <> char one(char) { return (char) 1; }
+template <> inline char zero(char) { return (char) 0; }
+template <> inline char one(char) { return (char) 1; }
 
-template <> short zero(short) { return (short) 0; }
-template <> short one(short) { return (short) 1; }
+template <> inline short zero(short) { return (short) 0; }
+template <> inline short one(short) { return (short) 1; }
 
-template <> int zero(int) { return (int) 0; }
-template <> int one(int) { return (int) 1; }
+template <> inline int zero(int) { return (int) 0; }
+template <> inline int one(int) { return (int) 1; }
 
-template <> long zero(long) { return (long) 0; }
-template <> long one(long) { return (long) 1; }
+template <> inline long zero(long) { return (long) 0; }
+template <> inline long one(long) { return (long) 1; }
 
-template <> float zero(float) { return (float) 0.0; }
-template <> float one(float) { return (float) 1.0; }
+template <> inline float zero(float) { return (float) 0.0; }
+template <> inline float one(float) { return (float) 1.0; }
 
-template <> double zero(double) { return (double) 0.0; }
-template <> double one(double) { return (double) 1.0; }
+template <> inline double zero(double) { return (double) 0.0; }
+template <> inline double one(double) { return (double) 1.0; }
 
 #undef LIBSYMBOLICCPLUSPLUS
 

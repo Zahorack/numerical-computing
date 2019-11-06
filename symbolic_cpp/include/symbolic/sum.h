@@ -75,12 +75,12 @@ class Sum: public CloningSymbolicInterface
 #define SYMBOLIC_CPLUSPLUS_SUM_DEFINE
 #define SYMBOLIC_CPLUSPLUS_SUM
 
-Sum::Sum() {}
+inline Sum::Sum() {}
 
-Sum::Sum(const Sum &s)
+inline Sum::Sum(const Sum &s)
  : CloningSymbolicInterface(s), summands(s.summands) {}
 
-Sum::Sum(const Symbolic &s1,const Symbolic &s2)
+inline Sum::Sum(const Symbolic &s1,const Symbolic &s2)
 {
  if(s1.type() == typeid(Sum)) summands = CastPtr<const Sum>(s1)->summands;
  else summands.push_back(s1);
@@ -92,15 +92,15 @@ Sum::Sum(const Symbolic &s1,const Symbolic &s2)
  else summands.push_back(s2);
 }
 
-Sum::~Sum() {}
+inline Sum::~Sum() {}
 
-Sum &Sum::operator=(const Sum &s)
+inline Sum &Sum::operator=(const Sum &s)
 {
  if(this != &s) summands = s.summands;
  return *this;
 }
 
-void Sum::print(ostream &o) const
+inline void Sum::print(ostream &o) const
 {
  if(summands.empty()) o << 0;
  for(list<Symbolic>::const_iterator i=summands.begin();i!=summands.end();
@@ -115,7 +115,7 @@ void Sum::print(ostream &o) const
  }
 }
 
-Symbolic Sum::subst(const Symbolic &x,const Symbolic &y,int &n) const
+inline Symbolic Sum::subst(const Symbolic &x,const Symbolic &y,int &n) const
 {
  if(x.type() == type())
  {
@@ -149,7 +149,7 @@ Symbolic Sum::subst(const Symbolic &x,const Symbolic &y,int &n) const
  return s;
 }
 
-Simplified Sum::simplify() const
+inline Simplified Sum::simplify() const
 {
  list<Symbolic>::const_iterator i;
  list<Symbolic>::iterator j, k;
@@ -264,7 +264,7 @@ Simplified Sum::simplify() const
  return r;
 }
 
-int Sum::compare(const Symbolic &s) const
+inline int Sum::compare(const Symbolic &s) const
 {
  if(type() != s.type()) return 0;
  // make a copy of s
@@ -284,7 +284,7 @@ int Sum::compare(const Symbolic &s) const
  return 1;
 }
 
-Symbolic Sum::df(const Symbolic &s) const
+inline Symbolic Sum::df(const Symbolic &s) const
 {
  list<Symbolic>::const_iterator i;
  Sum r;
@@ -293,7 +293,7 @@ Symbolic Sum::df(const Symbolic &s) const
  return r;
 }
 
-Symbolic Sum::integrate(const Symbolic &s) const
+inline Symbolic Sum::integrate(const Symbolic &s) const
 {
  list<Symbolic>::const_iterator i;
  Sum r;
@@ -302,7 +302,7 @@ Symbolic Sum::integrate(const Symbolic &s) const
  return r;
 }
 
-Symbolic Sum::coeff(const Symbolic &s) const
+inline Symbolic Sum::coeff(const Symbolic &s) const
 {
  list<Symbolic>::const_iterator i;
  Sum r;
@@ -311,7 +311,7 @@ Symbolic Sum::coeff(const Symbolic &s) const
  return r;
 }
 
-Expanded Sum::expand() const
+inline Expanded Sum::expand() const
 {
  list<Symbolic>::const_iterator i;
  Sum r;
@@ -320,7 +320,7 @@ Expanded Sum::expand() const
  return r;
 }
 
-int Sum::commute(const Symbolic &s) const
+inline int Sum::commute(const Symbolic &s) const
 {
  list<Symbolic>::const_iterator i;
 
@@ -350,7 +350,7 @@ int Sum::commute(const Symbolic &s) const
  return sum == 0;
 }
 
-PatternMatches Sum::match(const Symbolic &s, const list<Symbolic> &p) const
+inline PatternMatches Sum::match(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l;
  list<Symbolic>::const_iterator i;
@@ -394,7 +394,7 @@ PatternMatches Sum::match(const Symbolic &s, const list<Symbolic> &p) const
  return l;
 }
 
-PatternMatches
+inline PatternMatches
 Sum::match_parts(const Symbolic &s, const list<Symbolic> &p) const
 {
  PatternMatches l = s.match(*this, p);

@@ -66,9 +66,9 @@ class SymbolicError
 #ifndef SYMBOLIC_CPLUSPLUS_ERRORS_DEFINE
 #define SYMBOLIC_CPLUSPLUS_ERRORS_DEFINE
 
-SymbolicError::SymbolicError(const error &e) : errornumber(e) {}
+inline SymbolicError::SymbolicError(const error &e) : errornumber(e) {}
 
-string SymbolicError::message() const
+inline string SymbolicError::message() const
 {
  switch(errornumber)
  {

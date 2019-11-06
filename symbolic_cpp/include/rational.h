@@ -394,11 +394,11 @@ template <class T> T abs(const T &x)
 }
 
 #include "verylong.h"
-template <> Rational<Verylong>::operator double() const;
+template <> inline Rational<Verylong>::operator double() const;
 
 #define LIBSYMBOLICCPLUSPLUS
 
-template <> Rational<Verylong>::operator double() const { return div(p,q); }
+template <> inline Rational<Verylong>::operator double() const { return div(p,q); }
 
 #undef LIBSYMBOLICCPLUSPLUS
 
