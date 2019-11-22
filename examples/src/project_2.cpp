@@ -27,8 +27,8 @@ namespace examples {
             TwoDimensional::Point point(2.0, 3.0);
             TwoDimensional::Function func(F);
 
-            cout <<func.get()<<"\n";
-            cout << func.value(point) << "\n";
+            cout <<func.getSymbolic()<<"\n";
+            cout <<func.value(point) << "\n";
             cout <<func.gradient()<<"\n";
             cout <<"Gradient at "<<func.gradient(point)<<"\n";
             cout <<"Hessian "<<func.hessian()<<"\n";

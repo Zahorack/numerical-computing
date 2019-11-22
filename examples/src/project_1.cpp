@@ -31,11 +31,34 @@
 
 static double toDouble(Symbolic sym)
 {
-    return static_cast<double>(sym);
+return static_cast<double>(sym);
 }
 
 namespace examples {
     namespace projectOne {
+
+        static void visualisations() {
+            std::string funkcia = "((x - 2)*(x - 2) + (y - x*x)*(y - x*x))";
+            Gnuplot gp("gnuplot -persist");
+
+            gp<<("set xrange [-5:5]\n");
+            gp<<("set yrange [-5:5]\n");
+            gp<<("set pm3d at b\n");
+            gp<<("set ticslevel 0.8\n");
+            gp<<("set isosample 40,40\n");
+            gp<<("set cntrparam levels 15\n");
+            gp<<("set samples 20\n");
+            gp<<("set isosamples 21\n");
+            gp<<("set view 60, 30, 0.85, 1.1\n");
+            gp<<("set key at screen 1.0, 0.9\n");
+            gp<<("set style textbox opaque noborder margins 0.5, 0.5\n");
+            gp<<("set cntrparam levels incr -10,1,10\n");
+            gp<<("set contour\n");
+
+            gp<<("splot ");
+            gp<<((funkcia));
+            gp<<("\n");
+        }
 
         static const float Precision   = 0.001;
         static const float MaxCycleIterations = 50;
@@ -71,9 +94,11 @@ namespace examples {
                 else {
                     cout << "Newton and Raphson method reach solution with accuracy and terminated in " << iterator
                          << ". iteration \n\n";
-                    cout << "Locally minimum of function have been found at [" << newpoint[0] << " " << newpoint[1] << "]\n\n";
+                    cout << "Locally minimum of function have been found at "<<newpoint.matrix;
                     break;
                 }
+
+                visualisations();
             }
         }
 
@@ -120,28 +145,6 @@ namespace examples {
             }
         }
 
-        static void visualisations() {
-            std::string funkcia = "((x - 2)*(x - 2) + (y - x*x)*(y - x*x))";
-            Gnuplot gp("gnuplot -persist");
-
-            gp<<("set xrange [-5:5]\n");
-            gp<<("set yrange [-5:5]\n");
-            gp<<("set pm3d at b\n");
-            gp<<("set ticslevel 0.8\n");
-            gp<<("set isosample 40,40\n");
-            gp<<("set cntrparam levels 15\n");
-            gp<<("set samples 20\n");
-            gp<<("set isosamples 21\n");
-            gp<<("set view 60, 30, 0.85, 1.1\n");
-            gp<<("set key at screen 1.0, 0.9\n");
-            gp<<("set style textbox opaque noborder margins 0.5, 0.5\n");
-            gp<<("set cntrparam levels incr -10,1,10\n");
-            gp<<("set contour\n");
-
-            gp<<("splot ");
-            gp<<((funkcia));
-            gp<<("\n");
-        }
 
     }
 }

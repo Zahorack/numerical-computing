@@ -9,6 +9,8 @@ add_subdirectory(gnuplot_iostream)
 add_subdirectory(symbolic_cpp)
 add_subdirectory(numerical_computing)
 add_subdirectory(examples)
+add_subdirectory(optimization)
 
 add_executable(numerical_computing_exe main.cpp)
 target_link_libraries(numerical_computing_exe examples)
+target_link_libraries(numerical_computing_exe optimization)

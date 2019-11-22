@@ -10,15 +10,15 @@
 
 class FunctionBase {
 
+
 public:
-    Symbolic m_function;
+    Symbolic m_symbolic;
     int m_dimension;
 
     FunctionBase(const Symbolic f, int dimension);
     ~FunctionBase();
 
-    const Symbolic get();
-
+    const Symbolic getSymbolic();
 };
 
 ////////////////////////////////////////////////////////////////////////

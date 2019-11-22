@@ -2,19 +2,22 @@
 // Created by zahorack on 11/5/19.
 //
 
+#include <iostream>
 #include "Function.h"
+#include "string.h"
 
 FunctionBase::FunctionBase(const Symbolic f, int dimension):
-    m_function(f),
+    m_symbolic(f),
     m_dimension(dimension)
 {}
 
-FunctionBase::~FunctionBase() {}
+FunctionBase::~FunctionBase()
+{}
 
 
-const Symbolic FunctionBase::get()
+const Symbolic FunctionBase::getSymbolic()
 {
-    return m_function;
+    return m_symbolic;
 }
 
 
@@ -30,7 +33,7 @@ namespace OneDimensional {
 
     Symbolic Function::value(Point at)
     {
-        Symbolic result = m_function.subst(x == at[0]);
+        Symbolic result = m_symbolic.subst(x == at[0]);
         return result;
     }
 
@@ -42,7 +45,7 @@ namespace OneDimensional {
 
     Symbolic Function::gradient()
     {
-        Symbolic dx = df(m_function, x);
+        Symbolic dx = df(m_symbolic, x);
 
         Symbolic gradient = (dx);
         return gradient;
@@ -80,7 +83,7 @@ namespace TwoDimensional {
 
     Symbolic Function::value(Point at)
     {
-        Symbolic result = m_function.subst(x == at[0]);
+        Symbolic result = m_symbolic.subst(x == at[0]);
         result = result.subst(y == at[1]);
         return result;
     }
@@ -94,8 +97,8 @@ namespace TwoDimensional {
 
     Symbolic Function::gradient()
     {
-        Symbolic dx = df(m_function, x);
-        Symbolic dy = df(m_function, y);
+        Symbolic dx = df(m_symbolic, x);
+        Symbolic dy = df(m_symbolic, y);
 
         Symbolic gradient = (dx, dy);
 
@@ -137,7 +140,7 @@ namespace ThreeDimensional {
 
     Symbolic Function::value(Point at)
     {
-        Symbolic result = m_function.subst(x == at[0]);
+        Symbolic result = m_symbolic.subst(x == at[0]);
         result = result.subst(y == at[1]);
         result = result.subst(z == at[2]);
         return result;
@@ -153,9 +156,9 @@ namespace ThreeDimensional {
 
     Symbolic Function::gradient()
     {
-        Symbolic dx = df(m_function, x);
-        Symbolic dy = df(m_function, y);
-        Symbolic dz = df(m_function, z);
+        Symbolic dx = df(m_symbolic, x);
+        Symbolic dy = df(m_symbolic, y);
+        Symbolic dz = df(m_symbolic, z);
 
         Symbolic gradient = (dx, dy, dz);
 
