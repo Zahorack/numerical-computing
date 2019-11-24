@@ -29,10 +29,6 @@
 %           <> accuracy = d = g1^2 + g2^2 <= 0.001, when[g1, g2] = gradient(f).
 */
 
-static double toDouble(Symbolic sym)
-{
-return static_cast<double>(sym);
-}
 
 namespace examples {
     namespace projectOne {

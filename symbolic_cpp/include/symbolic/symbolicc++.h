@@ -204,6 +204,10 @@ void pattern_match_OR(PatternMatches &, const PatternMatches &);
 // definitions for non-member functions
 // also used in definition phase for clarity
 
+inline double toDouble(Symbolic sym) {
+    return static_cast<double>(sym);
+}
+
 inline Symbolic expand(const SymbolicInterface &s)
 { return s.expand(); }
 

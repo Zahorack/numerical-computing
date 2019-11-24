@@ -9,6 +9,7 @@
 
 #include "optimization/include/NewtonRaphson.h"
 #include "optimization/include/LevenbergMarquardt.h"
+#include "optimization/include/NelderMead.h"
 #include "symbolicc++.h"
 #include "Plot.h"
 
@@ -28,6 +29,9 @@ static void project_one()
     Optimization::LevenbergMarquardt methodTwo(func, StartPoint, 0.0001);
     methodTwo.findMinimum();
 
+    Optimization::NelderMead methodThree(func, StartPoint, 0.05, 2.5);
+    methodThree.findMinimum();
+
 }
 
 int main() {
@@ -42,6 +46,9 @@ int main() {
 //    examples::projectTwo::test();
 
     project_one();
+
+
+
 
     return 0;
 }

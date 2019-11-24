@@ -16,7 +16,7 @@ namespace Optimization {
     using namespace TwoDimensional;
     static const float MaxCycleIterations = 50;
 
-    static double toDouble(Symbolic sym) {
+    static double symbolicToDouble(Symbolic sym) {
         return static_cast<double>(sym);
     }
 
@@ -53,7 +53,7 @@ namespace Optimization {
             Symbolic fnew = m_function.value(newpoint);
             Symbolic gnew = m_function.gradient(newpoint);
 
-            if (toDouble(fnew) < toDouble(f)) {
+            if (symbolicToDouble(fnew) < symbolicToDouble(f)) {
                 alfa = alfa / c;
 
                 double dx = toDouble(gnew.column(0)), dy = toDouble(gnew.column(1));
@@ -62,7 +62,7 @@ namespace Optimization {
                     point = newpoint;
                 } else {
                     cout << "Levenberg Marquardt method reach solution with accuracy and terminated in " << iterator
-                         << ". iteration \n\n";
+                         << ". iteration \n";
                     cout << "Locally minimum of function have been found at [" << newpoint[0] << " " << newpoint[1]
                          << "]\n\n";
                     break;

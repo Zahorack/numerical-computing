@@ -15,10 +15,6 @@ namespace Optimization {
     using namespace TwoDimensional;
     static const float MaxCycleIterations = 50;
 
-    static double toDouble(Symbolic sym) {
-        return static_cast<double>(sym);
-    }
-
     NewtonRaphson::NewtonRaphson(Function f, Point begin) :
         m_function(f),
         m_point(begin),

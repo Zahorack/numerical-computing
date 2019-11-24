@@ -19,6 +19,8 @@ public:
     ~PointBase();
 
     Symbolic operator[](int);
+    Symbolic operator+(Symbolic);
+
 };
 
 ////////////////////////////////////////////////////////////////////////

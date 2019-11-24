@@ -20,6 +20,15 @@ Symbolic PointBase::operator[](int at)
     return matrix.column(at);
 }
 
+Symbolic PointBase::operator+(Symbolic a)
+{
+    Symbolic sum;
+    sum = matrix + a;
+
+    return sum;
+}
+
+
 ////////////////////////////////////////////////////////////////////////
 namespace OneDimensional {
 
