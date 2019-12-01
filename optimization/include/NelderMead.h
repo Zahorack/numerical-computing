@@ -9,13 +9,11 @@
 #include "Point.h"
 #include "Simplex.h"
 
-using namespace TwoDimensional;
-
 namespace Optimization {
 
 class NelderMead {
-    Function m_function;
-    Point m_point;
+    TwoDimensional::Function m_function;
+    TwoDimensional::Point m_point;
     double m_precision;
     double m_initialSize;
 
@@ -31,10 +29,10 @@ class NelderMead {
     TriangleSimplex simplex;
 
 public:
-    NelderMead(Function f, Point begin);
-    NelderMead(Function f, Point begin, double precision, double initSize);
+    NelderMead(TwoDimensional::Function f, TwoDimensional::Point begin);
+    NelderMead(TwoDimensional::Function f, TwoDimensional::Point begin, double precision, double initSize);
 
-    Point findMinimum();
+    TwoDimensional::Point findMinimum();
 };
 
 }

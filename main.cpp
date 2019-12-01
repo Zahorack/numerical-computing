@@ -10,8 +10,12 @@
 #include "optimization/include/NewtonRaphson.h"
 #include "optimization/include/LevenbergMarquardt.h"
 #include "optimization/include/NelderMead.h"
+#include "optimization/include/GoldenSectionSearch.h"
 #include "symbolicc++.h"
 #include "Plot.h"
+
+#include "Function.h"
+
 
 
 
@@ -34,6 +38,8 @@ static void project_one()
 
 }
 
+
+
 int main() {
 
 //    examples::lectureOne::taskOne();
@@ -45,10 +51,13 @@ int main() {
 
 //    examples::projectTwo::test();
 
-    project_one();
+    //project_one();
 
 
+    OneDimensional::Function func(x*x*x*x - 3*x*x*x + x +7 );
+    Optimization::GoldenSectionSearch zlatyrez(func, 1, 3);
 
+    zlatyrez.findMinimum();
 
     return 0;
 }

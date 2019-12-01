@@ -8,20 +8,19 @@
 #include "Function.h"
 #include "Point.h"
 
-using namespace TwoDimensional;
-
 namespace Optimization {
 
     class LevenbergMarquardt {
-        Function m_function;
-        Point m_point;
+        TwoDimensional::Function m_function;
+        TwoDimensional::Point m_point;
         float m_precision;
 
     public:
-        LevenbergMarquardt(Function f, Point begin);
-        LevenbergMarquardt(Function f, Point begin, float precision);
+        LevenbergMarquardt(TwoDimensional::Function f, TwoDimensional::Point begin);
+        LevenbergMarquardt(TwoDimensional::Function f, TwoDimensional::Point begin, float precision);
+        ~LevenbergMarquardt();
 
-        Point findMinimum();
+        TwoDimensional::Point findMinimum();
     };
 
 }

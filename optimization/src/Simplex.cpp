@@ -5,11 +5,9 @@
 #include <iostream>
 #include "Simplex.h"
 
-using namespace TwoDimensional;
-
 namespace Optimization {
 
-Vertex::Vertex(Point p, double v):
+Vertex::Vertex(TwoDimensional::Point p, double v):
     point(p),
     value(v)
 {}

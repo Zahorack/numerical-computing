@@ -11,8 +11,6 @@
 #include "Plot.h"
 #include <math.h>
 
-using namespace TwoDimensional;
-
 namespace Optimization {
 
     static const int MaxCycleIterations = 50;
@@ -24,14 +22,14 @@ namespace Optimization {
         return static_cast<double>(sym);
     }
 
-    NelderMead::NelderMead(Function f, Point begin) :
+    NelderMead::NelderMead(TwoDimensional::Function f, TwoDimensional::Point begin) :
         m_function(f),
         m_point(begin),
         m_precision(0.001),
         m_initialSize(2)
     {}
 
-    NelderMead::NelderMead(Function f, Point begin, double precision, double initSize) :
+    NelderMead::NelderMead(TwoDimensional::Function f, TwoDimensional::Point begin, double precision, double initSize) :
         m_function(f),
         m_point(begin),
         m_precision(precision),
@@ -44,9 +42,9 @@ namespace Optimization {
 
         double height = sqrt(pow(m_initialSize, 2) - pow((m_initialSize/2),2));
 
-        Point a = Point(m_point[0] - m_initialSize/2, m_point[1] - height/3);
-        Point b = Point(m_point[0] + m_initialSize/2, m_point[1] - height/3);
-        Point c = Point(m_point[0], m_point[1] + 2*height/3);
+        TwoDimensional::Point a = TwoDimensional::Point(m_point[0] - m_initialSize/2, m_point[1] - height/3);
+        TwoDimensional::Point b = TwoDimensional::Point(m_point[0] + m_initialSize/2, m_point[1] - height/3);
+        TwoDimensional::Point c = TwoDimensional::Point(m_point[0], m_point[1] + 2*height/3);
 
         Vertex A = Vertex(a, m_function.value(a));
         Vertex B = Vertex(b, m_function.value(b));
@@ -76,8 +74,8 @@ namespace Optimization {
     Vertex NelderMead::expansion() {
         Vertex expansion;
 
-        Point reflected = reflection().point;
-        Point cent = center().point;
+        TwoDimensional::Point reflected = reflection().point;
+        TwoDimensional::Point cent = center().point;
 
         expansion.point.matrix = cent.matrix + (reflected.matrix - cent.matrix)* Symbolic(ExpansionCoefficient);
         expansion.value = m_function.value(expansion.point);
@@ -87,7 +85,7 @@ namespace Optimization {
 
     Vertex NelderMead::contraction() {
         Vertex contraction;
-        Point cent = center().point;
+        TwoDimensional::Point cent = center().point;
 
         contraction.point.matrix = cent.matrix + (simplex.worstVertex.point.matrix - cent.matrix)* Symbolic(ContractionCoefficient);
         contraction.value = m_function.value(contraction.point);
@@ -97,7 +95,7 @@ namespace Optimization {
 
     Vertex NelderMead::reduction(Vertex vert) {
         Vertex reduction;
-        Point best = simplex.bestVertex.point;
+        TwoDimensional::Point best = simplex.bestVertex.point;
 
         reduction.point.matrix = best.matrix + (vert.point.matrix - best.matrix)*Symbolic(ReductionCoefficient);
         reduction.value = m_function.value(reduction.point);
@@ -117,8 +115,8 @@ namespace Optimization {
         return false;
     }
 
-    Point NelderMead::findMinimum() {
-        Point point = m_point;
+    TwoDimensional::Point NelderMead::findMinimum() {
+        TwoDimensional::Point point = m_point;
         int iterator = 0;
         simplex = createInitialSimplex();
 

@@ -13,27 +13,28 @@
 
 namespace Optimization {
 
-    using namespace TwoDimensional;
     static const float MaxCycleIterations = 50;
 
     static double symbolicToDouble(Symbolic sym) {
         return static_cast<double>(sym);
     }
 
-    LevenbergMarquardt::LevenbergMarquardt(Function f, Point begin) :
+    LevenbergMarquardt::LevenbergMarquardt(TwoDimensional::Function f, TwoDimensional::Point begin) :
             m_function(f),
             m_point(begin),
             m_precision(0.001) {}
 
-    LevenbergMarquardt::LevenbergMarquardt(Function f, Point begin, float precision) :
+    LevenbergMarquardt::LevenbergMarquardt(TwoDimensional::Function f, TwoDimensional::Point begin, float precision) :
             m_function(f),
             m_point(begin),
             m_precision(precision) {}
 
+    LevenbergMarquardt::~LevenbergMarquardt()
+    {}
 
-    Point LevenbergMarquardt::findMinimum() {
-        Point point = m_point;
-        Point newpoint;
+    TwoDimensional::Point LevenbergMarquardt::findMinimum() {
+        TwoDimensional::Point point = m_point;
+        TwoDimensional::Point newpoint;
 
         float alfa = 8;
         float c = 4;

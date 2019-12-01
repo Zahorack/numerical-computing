@@ -37,6 +37,12 @@ namespace OneDimensional {
         return result;
     }
 
+    double Function::value(double at)
+    {
+        Symbolic result = m_symbolic.subst(x == at);
+        return result;
+    }
+
     Symbolic Function::value(Symbolic func, Point at)
     {
         Symbolic result = func.subst(x == at[0]);
@@ -66,6 +72,35 @@ namespace OneDimensional {
     Symbolic Function::hessian(Point at)
     {
         return value(hessian(), at);
+    }
+
+    StationaryPoint::Enum Function::character(Point stationaryPoint)
+    {
+        double determinant = toDouble(det(hessian(stationaryPoint)));
+
+        if(determinant > 0) /* Kladne definitny hessian */
+            return StationaryPoint::Minimum;
+        else if(determinant < 0) /* Zaporne definitny hessian */
+            return StationaryPoint::Maximum;
+
+        /* Nedefinitny hessian */
+        return StationaryPoint::Saddle;
+    }
+
+    bool Function::isRising(Point at)
+    {
+        if(toDouble(gradient(at)) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    bool Function::isFalling(Point at)
+    {
+        if(toDouble(gradient(at)) < 0) {
+            return true;
+        }
+        return false;
     }
 }
 
@@ -123,6 +158,25 @@ namespace TwoDimensional {
     Symbolic Function::hessian(Point at)
     {
         return value(hessian(), at);
+    }
+
+    StationaryPoint::Enum Function::character(Point stationaryPoint)
+    {
+        double determinant = toDouble(det(hessian(stationaryPoint)));
+        double subDeterminant = toDouble((hessian(stationaryPoint).row(0).column(0)));
+
+        if(determinant > 0 && subDeterminant > 0) { /* Kladne definitny hessian */
+            cout<<"Stationary point "<<stationaryPoint.matrix<< "is a Locally minimum of function";
+            return StationaryPoint::Minimum;
+        }
+        else if(determinant > 0 && subDeterminant < 0) { /* Zaporne definitny hessian */
+            cout<<"Stationary point "<<stationaryPoint.matrix<< "is a Locally maximum of function";
+            return StationaryPoint::Maximum;
+        }
+
+        /* Nedefinitny hessian */
+        cout<<"Stationary point "<<stationaryPoint.matrix<< "is a Saddle point of function";
+        return StationaryPoint::Saddle;
     }
 }
 
@@ -185,5 +239,35 @@ namespace ThreeDimensional {
     Symbolic Function::hessian(Point at)
     {
         return value(hessian(), at);
+    }
+
+    StationaryPoint::Enum Function::character(Point stationaryPoint)
+    {
+        Symbolic hess = hessian(stationaryPoint);
+
+        cout<<"Hessian\n"<<hessian();
+        cout<<"Hessian at point\n"<<hessian(stationaryPoint);
+
+        double determinant = toDouble(det(hess));
+
+        Symbolic subHessian =   ((hess.row(0).column(0), hess.row(0).column(1)),
+                                (hess.row(1).column(0), hess.row(1).column(1)));
+
+        double subDeterminant = toDouble(det(subHessian));
+        double terDeterminant = toDouble((hess.row(0).column(0)));
+
+        if(determinant > 0 && subDeterminant > 0 && terDeterminant > 0) { /* Kladne definitny hessian */
+            cout<<"Stationary point "<<stationaryPoint.matrix<< "is a Locally minimum of function";
+            return StationaryPoint::Minimum;
+        }
+        else if(determinant < 0 && subDeterminant > 0 && terDeterminant < 0) {/* Zaporne definitny hessian */
+            cout<<"Stationary point "<<stationaryPoint.matrix<< "is a Locally maximum of function";
+            return StationaryPoint::Maximum;
+        }
+
+        /* Nedefinitny hessian */
+        cout<<"Stationary point "<<stationaryPoint.matrix<< "is a Saddle point of function";
+        return StationaryPoint::Saddle;
+
     }
 }

@@ -69,7 +69,6 @@ namespace examples {
          */
         void taskTwo() {
             std::string funkcia = "(((x-3)*y+3)*((x-3)*y+3) + ((x*x - 3)*y -3)*((x*x - 3)*y -3))";
-
             Gnuplot gp("gnuplot -persist");
 
             Symbolic x("x"), y("y");

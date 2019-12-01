@@ -61,13 +61,12 @@ namespace examples {
         static const Symbolic x("x"), y("y");
         static const Symbolic F = (x - 2)*(x - 2) + (y - x*x)*(y - x*x);
 
-        using namespace TwoDimensional;
-        Point StartPoint(1.5, 5.0);
-        Function func(F);
+        TwoDimensional::Point StartPoint(1.5, 5.0);
+        TwoDimensional::Function func(F);
 
         void NewtonRaphson() {
 
-            Point point = StartPoint;
+            TwoDimensional::Point point = StartPoint;
 
             for(int iterator = 0; iterator <= MaxCycleIterations; iterator++) {
                 cout<<"Iteration: "<<iterator<<"\n";
@@ -76,7 +75,7 @@ namespace examples {
                 Symbolic g = func.gradient(point);
                 Symbolic H = func.hessian(point);
 
-                Point newpoint;
+                TwoDimensional::Point newpoint;
                 newpoint = static_cast<Symbolic>(point.matrix.transpose() - (H.inverse()) * g.transpose());
 
                 Symbolic fnew = func.value(newpoint);
@@ -102,7 +101,7 @@ namespace examples {
         {
             float alfa= 8;
             float c   = 4;
-            Point point = StartPoint;
+            TwoDimensional::Point point = StartPoint;
 
             for(int iterator = 0; iterator <= MaxCycleIterations; iterator++) {
                 cout<<"Iteration: "<<iterator<<"\n";
@@ -114,7 +113,7 @@ namespace examples {
                 Symbolic eye = ((static_cast<Symbolic>(alfa),    0),
                                 (   0, static_cast<Symbolic>(alfa)));
 
-                Point newpoint;
+                TwoDimensional::Point newpoint;
                 newpoint = (point.matrix.transpose() - (H + eye).inverse() * g.transpose());
 
                 Symbolic fnew = func.value(newpoint);

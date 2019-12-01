@@ -8,7 +8,6 @@
 #include "Point.h"
 #include "Function.h"
 
-using namespace TwoDimensional;
 
 namespace Optimization {
 
@@ -16,9 +15,9 @@ class Vertex {
 public:
     Vertex() {}
     ~Vertex() {}
-    Vertex(Point p, double v);
+    Vertex(TwoDimensional::Point p, double v);
 
-    Point point;
+    TwoDimensional::Point point;
     double value;
 };
 

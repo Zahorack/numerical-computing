@@ -12,25 +12,22 @@
 
 namespace Optimization {
 
-    using namespace TwoDimensional;
     static const float MaxCycleIterations = 50;
 
-    NewtonRaphson::NewtonRaphson(Function f, Point begin) :
-        m_function(f),
-        m_point(begin),
-        m_precision(0.001)
-    {}
+    NewtonRaphson::NewtonRaphson(TwoDimensional::Function f, TwoDimensional::Point begin) :
+            m_function(f),
+            m_point(begin),
+            m_precision(0.001) {}
 
-    NewtonRaphson::NewtonRaphson(Function f, Point begin, float precision) :
-        m_function(f),
-        m_point(begin),
-        m_precision(precision)
-    {}
+    NewtonRaphson::NewtonRaphson(TwoDimensional::Function f, TwoDimensional::Point begin, float precision) :
+            m_function(f),
+            m_point(begin),
+            m_precision(precision) {}
 
 
-    Point NewtonRaphson::findMinimum() {
-        Point point = m_point;
-        Point newpoint;
+    TwoDimensional::Point NewtonRaphson::findMinimum() {
+        TwoDimensional::Point point = m_point;
+        TwoDimensional::Point newpoint;
 
         for (int iterator = 0; iterator <= MaxCycleIterations; iterator++) {
             cout << "Iteration: " << iterator << "\n";
@@ -61,7 +58,5 @@ namespace Optimization {
 
         return newpoint;
     }
-
-
 }
 

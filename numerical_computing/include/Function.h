@@ -8,8 +8,22 @@
 #include "Point.h"
 #include "symbolicc++.h"
 
-class FunctionBase {
+static const Symbolic x("x"), y("y"), z("z");
 
+namespace StationaryPoint {
+enum Enum {
+    Minimum = 0,
+    Maximum,
+    Saddle,
+    Invalid,
+
+    Size
+};
+}
+
+
+
+class FunctionBase {
 
 public:
     Symbolic m_symbolic;
@@ -32,6 +46,7 @@ namespace OneDimensional {
         ~Function();
 
         Symbolic value(Point);
+        double value(double);
         Symbolic value(Symbolic, Point);
 
         Symbolic gradient();
@@ -39,6 +54,11 @@ namespace OneDimensional {
 
         Symbolic hessian();
         Symbolic hessian(Point);
+
+        StationaryPoint::Enum character(Point);
+        bool isRising(Point);
+        bool isFalling(Point);
+
     };
 }
 
@@ -60,6 +80,9 @@ namespace TwoDimensional {
 
         Symbolic hessian();
         Symbolic hessian(Point);
+
+        StationaryPoint::Enum character(Point);
+
     };
 }
 
@@ -82,6 +105,8 @@ namespace ThreeDimensional {
 
         Symbolic hessian();
         Symbolic hessian(Point);
+
+        StationaryPoint::Enum character(Point);
     };
 }
 

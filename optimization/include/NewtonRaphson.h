@@ -8,22 +8,23 @@
 #include "Function.h"
 #include "Point.h"
 
-using namespace TwoDimensional;
+
 
 namespace Optimization {
 
-class NewtonRaphson {
-    Function m_function;
-    Point m_point;
-    float m_precision;
 
-public:
-    NewtonRaphson(Function f, Point begin);
-    NewtonRaphson(Function f, Point begin, float precision);
+    class NewtonRaphson {
+        TwoDimensional::Function m_function;
+        TwoDimensional::Point m_point;
+        float m_precision;
 
-    Point findMinimum();
-};
+    public:
+        NewtonRaphson(TwoDimensional::Function f, TwoDimensional::Point begin);
 
+        NewtonRaphson(TwoDimensional::Function f, TwoDimensional::Point begin, float precision);
+
+        TwoDimensional::Point findMinimum();
+    };
 }
 
 #endif //NUMERICAL_COMPUTING_NEWTONRAPHSON_H

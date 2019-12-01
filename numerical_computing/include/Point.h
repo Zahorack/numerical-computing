@@ -68,8 +68,6 @@ namespace ThreeDimensional {
 union PointList {
     OneDimensional::Point OneDimensionalPoint;
     TwoDimensional::Point TwoDimensionalPoint;
-
-
 };
 
 #endif //NUMERICAL_COMPUTING_POINT_H
