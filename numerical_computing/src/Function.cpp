@@ -43,6 +43,12 @@ namespace OneDimensional {
         return result;
     }
 
+    Symbolic Function::value(Symbolic func, double at)
+    {
+        Symbolic result = func.subst(x == at);
+        return result;
+    }
+
     Symbolic Function::value(Symbolic func, Point at)
     {
         Symbolic result = func.subst(x == at[0]);
@@ -58,6 +64,11 @@ namespace OneDimensional {
     }
 
     Symbolic Function::gradient(Point at)
+    {
+        return value(gradient(), at);
+    }
+
+    double Function::gradient(double at)
     {
         return value(gradient(), at);
     }

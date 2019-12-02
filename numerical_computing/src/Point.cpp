@@ -82,7 +82,7 @@ namespace TwoDimensional {
         if(point.matrix.columns() != m_dimension) {
             if(point.matrix.rows() == m_dimension) {
                 matrix = point.matrix.transpose();
-                cout<<"!! Warning !! - implicit Point matrix transpose\n";
+//                cout<<"!! Warning !! - implicit Point matrix transpose\n";
             }
             else
                 cout<<"!!! Error !!! - Point matrix out of dimension\n";
@@ -96,7 +96,7 @@ namespace TwoDimensional {
         if(sym.columns() != m_dimension) {
             if(sym.rows() == m_dimension) {
                 matrix = sym.transpose();
-                cout<<"!! Warning !! - implicit Point matrix transpose\n";
+//                cout<<"!! Warning !! - implicit Point matrix transpose\n";
             }
             else
                 cout<<"!!! Error !!! - Point matrix out of dimension\n";

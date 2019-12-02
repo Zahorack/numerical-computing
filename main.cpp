@@ -11,6 +11,7 @@
 #include "optimization/include/LevenbergMarquardt.h"
 #include "optimization/include/NelderMead.h"
 #include "optimization/include/GoldenSectionSearch.h"
+#include "optimization/include/DavidonSearch.h"
 #include "symbolicc++.h"
 #include "Plot.h"
 
@@ -25,14 +26,14 @@ static void project_one()
     using namespace TwoDimensional;
     Point StartPoint(1.5, 5.0);
     Function func(((x - 2)*(x - 2) + (y - x*x)*(y - x*x)));
-    Plot::function(func.getSymbolic());
+    //Plot::function(func.getSymbolic());
 
-    Optimization::NewtonRaphson methodOne(func, StartPoint, 0.0001);
-    methodOne.findMinimum();
+//    Optimization::NewtonRaphson methodOne(func, StartPoint, 0.001);
+//    methodOne.findMinimum();
 
-    Optimization::LevenbergMarquardt methodTwo(func, StartPoint, 0.0001);
-    methodTwo.findMinimum();
-
+//    Optimization::LevenbergMarquardt methodTwo(func, StartPoint, 0.01);
+//    methodTwo.findMinimum();
+//
     Optimization::NelderMead methodThree(func, StartPoint, 0.05, 2.5);
     methodThree.findMinimum();
 
@@ -51,13 +52,16 @@ int main() {
 
 //    examples::projectTwo::test();
 
-    //project_one();
+    project_one();
 
 
-    OneDimensional::Function func(x*x*x*x - 3*x*x*x + x +7 );
-    Optimization::GoldenSectionSearch zlatyrez(func, 1, 3);
-
-    zlatyrez.findMinimum();
+//    OneDimensional::Function func(x*x*x*x - 3*x*x*x + x +7 );
+//
+//    Optimization::GoldenSectionSearch zlatyrez(func, 1, 3);
+//    zlatyrez.findMinimum();
+//
+//    Optimization::DavidonSearch davidon(SearchMode::Minimization, func, 1, 3, 0.0001);
+//    davidon.findMinimum();
 
     return 0;
 }

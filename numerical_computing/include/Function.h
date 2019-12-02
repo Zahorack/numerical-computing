@@ -47,10 +47,12 @@ namespace OneDimensional {
 
         Symbolic value(Point);
         double value(double);
+        Symbolic value(Symbolic, double);
         Symbolic value(Symbolic, Point);
 
         Symbolic gradient();
         Symbolic gradient(Point);
+        double gradient(double);
 
         Symbolic hessian();
         Symbolic hessian(Point);

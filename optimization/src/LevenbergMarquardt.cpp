@@ -20,14 +20,18 @@ namespace Optimization {
     }
 
     LevenbergMarquardt::LevenbergMarquardt(TwoDimensional::Function f, TwoDimensional::Point begin) :
-            m_function(f),
-            m_point(begin),
-            m_precision(0.001) {}
+        m_function(f),
+        m_point(begin),
+        m_precision(0.001),
+        m_timer(Time::Microseconds)
+    {}
 
     LevenbergMarquardt::LevenbergMarquardt(TwoDimensional::Function f, TwoDimensional::Point begin, float precision) :
-            m_function(f),
-            m_point(begin),
-            m_precision(precision) {}
+        m_function(f),
+        m_point(begin),
+        m_precision(precision),
+        m_timer(Time::Microseconds)
+    {}
 
     LevenbergMarquardt::~LevenbergMarquardt()
     {}
@@ -38,6 +42,8 @@ namespace Optimization {
 
         float alfa = 8;
         float c = 4;
+
+        m_timer.start();
 
         for (int iterator = 0; iterator <= MaxCycleIterations; iterator++) {
             cout << "Iteration: " << iterator << "\n";
@@ -62,16 +68,18 @@ namespace Optimization {
                 if ((dx * dx + dy * dy) > m_precision) {
                     point = newpoint;
                 } else {
-                    cout << "Levenberg Marquardt method reach solution with accuracy and terminated in " << iterator
-                         << ". iteration \n";
-                    cout << "Locally minimum of function have been found at [" << newpoint[0] << " " << newpoint[1]
-                         << "]\n\n";
                     break;
                 }
             } else {
                 alfa = alfa / c;
             }
         }
+
+        m_timer.stop();
+
+        cout << "Levenberg Marquardt method reach solution with accuracy and terminated\n";
+        cout << "Locally minimum of function have been found at [" << newpoint[0] << " " << newpoint[1]<< "]\n\n";
+        m_timer.result();
         //        Plot::function(m_function.getSymbolic());
 
         return newpoint;

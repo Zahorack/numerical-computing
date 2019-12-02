@@ -8,12 +8,14 @@
 #include "Function.h"
 #include "Point.h"
 #include "Simplex.h"
+#include "Timer.h"
 
 namespace Optimization {
 
 class NelderMead {
     TwoDimensional::Function m_function;
     TwoDimensional::Point m_point;
+    Timer m_timer;
     double m_precision;
     double m_initialSize;
 

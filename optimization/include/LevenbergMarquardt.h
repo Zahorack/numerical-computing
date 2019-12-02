@@ -7,12 +7,14 @@
 
 #include "Function.h"
 #include "Point.h"
+#include "Timer.h"
 
 namespace Optimization {
 
     class LevenbergMarquardt {
         TwoDimensional::Function m_function;
         TwoDimensional::Point m_point;
+        Timer m_timer;
         float m_precision;
 
     public:

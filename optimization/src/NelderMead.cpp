@@ -26,14 +26,16 @@ namespace Optimization {
         m_function(f),
         m_point(begin),
         m_precision(0.001),
-        m_initialSize(2)
+        m_initialSize(2),
+        m_timer(Time::Microseconds)
     {}
 
     NelderMead::NelderMead(TwoDimensional::Function f, TwoDimensional::Point begin, double precision, double initSize) :
         m_function(f),
         m_point(begin),
         m_precision(precision),
-        m_initialSize(initSize)
+        m_initialSize(initSize),
+        m_timer(Time::Microseconds)
     {}
 
     TriangleSimplex NelderMead::createInitialSimplex() {
@@ -120,6 +122,8 @@ namespace Optimization {
         int iterator = 0;
         simplex = createInitialSimplex();
 
+        m_timer.start();
+
         while(!terminatingCondition() && iterator < MaxCycleIterations) {
             iterator++;
 
@@ -156,9 +160,11 @@ namespace Optimization {
 
         } /* End of while */
 
+        m_timer.stop();
         cout << "Nelder and Mead method reach solution with accuracy and terminated in " << iterator
              << ". iteration \n";
         cout << "Locally minimum of function have been found at " <<simplex.bestVertex.point.matrix;
+        m_timer.result();
 
         return simplex.bestVertex.point;
     }
