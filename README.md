@@ -72,6 +72,11 @@ Object _Plot_ offer graphical visualisation and data plotting.
 Plot::function(myFunction.getSymbolic());
 ```
 
+<p align="center">
+<img src="https://github.com/Zahorack/numerical-computing/blob/master/image/plot2.png" width="400" title="hover text">
+<img src="https://github.com/Zahorack/numerical-computing/blob/master/image/plot1.png" width="400" title="hover text">
+</p>
+
 
 
 
