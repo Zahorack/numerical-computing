@@ -30,7 +30,7 @@ static void project_one()
     using namespace TwoDimensional;
     Point StartPoint(1.5, 5.0);
     Function func(((x - 2)*(x - 2) + (y - x*x)*(y - x*x)));
-    //Plot::function(func.getSymbolic());
+    Plot::function(func.getSymbolic());
 
 //    Optimization::NewtonRaphson methodOne(func, StartPoint, 0.001);
 //    methodOne.findMinimum();
@@ -56,7 +56,9 @@ int main() {
 
 //    examples::projectTwo::test();
 
-    project_one();
+//    project_one();
+    TwoDimensional::Function myFunction((x - 2)*(x + 5) + y*y);
+    Plot::function(myFunction.getSymbolic());
 
 
 //    OneDimensional::Function func(x*x*x*x - 3*x*x*x + x +7 );
@@ -66,9 +68,6 @@ int main() {
 //
 //    Optimization::DavidonSearch davidon(SearchMode::Minimization, func, 1, 3, 0.0001);
 //    davidon.findMinimum();
-
-    TwoDimensional::Function myFunction((x - 2)*(x + 5) + 3*y);
-    myFunction.
 
     return 0;
 }

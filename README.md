@@ -1,7 +1,7 @@
 # Numerical computing
 Open source Interactive numerical computing environment
 
-## Toolbox specification
+### Toolbox specification
 This repository contains necessary packages to symbolic computation, 
 matrix algebra etc., also offer data visualisation - graphs.  
 
@@ -9,7 +9,7 @@ For symbolic computation is used `SymbolicC++` library, for data visualisation a
 plotting is used `Gnuplot-iostream`.
 
 
-## Area of use
+### Area of use
 
 *Matrices algebra*
 
@@ -19,12 +19,12 @@ plotting is used `Gnuplot-iostream`.
 
 *Mathematical function properties analysis*
 
-### Numerical computing library
+## Numerical computing library
 My C++ implementation of utilities based on symbolic computation.
 
 
 
-#### Point
+### Point
 
 Object _Point_ represent point in n-dimensional space. 
 ```
@@ -39,7 +39,7 @@ By call `` myPoint.matrix;`` are possible matrices operations, return `1 x n` ma
 
 
 
-#### Function
+### Function
 
 Object _Function_ represent mathematical function by symbolic variables. 
 ```
@@ -63,6 +63,15 @@ return matrix `n x n`  of function's seconds derivatives - hessian.
 return `StationaryPoin::Minimum = 0` if Point is a locally minimum of function, return 
 `StationaryPoin::Maximum = 1` if Point is a locally maximum, or `StationaryPoin::Saddle = 2`
 if Point is saddle point of function.
+
+
+### Plot
+Object _Plot_ offer graphical visualisation and data plotting. 
+
+```
+Plot::function(myFunction.getSymbolic());
+```
+
 
 
 
