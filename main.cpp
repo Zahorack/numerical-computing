@@ -22,6 +22,10 @@
 
 static void project_one()
 {
+
+
+
+
     static const Symbolic x("x"), y("y");
     using namespace TwoDimensional;
     Point StartPoint(1.5, 5.0);
@@ -62,6 +66,9 @@ int main() {
 //
 //    Optimization::DavidonSearch davidon(SearchMode::Minimization, func, 1, 3, 0.0001);
 //    davidon.findMinimum();
+
+    TwoDimensional::Function myFunction((x - 2)*(x + 5) + 3*y);
+    myFunction.
 
     return 0;
 }
