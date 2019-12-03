@@ -35,7 +35,6 @@ Object _Point_ represent point in n-dimensional space.
 
 1. **Point value**  
 `` myPoint[i];`` return point value in `i` dimension.
-
 By call `` myPoint.matrix;`` are possible matrices operations, return `1 x n` matrix.
 
 
@@ -61,7 +60,6 @@ return matrix `n x n`  of function's seconds derivatives - hessian.
 
 4. **Function character of stationary/inflection point**
 `myFunction.character(Point);`
-
 return `StationaryPoin::Minimum = 0` if Point is a locally minimum of function, return 
 `StationaryPoin::Maximum = 1` if Point is a locally maximum, or `StationaryPoin::Saddle = 2`
 if Point is saddle point of function.
