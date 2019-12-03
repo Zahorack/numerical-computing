@@ -8,67 +8,65 @@ matrix algebra etc., also offer data visualisation - graphs.
 For symbolic computation is used `SymbolicC++` library, for data visualisation and 
 plotting is used `Gnuplot-iostream`.
 
+
+## Area of use
+
+*Matrices algebra*
+
+*Symbolic differential computation*
+
+*Graphical solutions and visualisations*
+
+*Mathematical function properties analysis*
+
 ### Numerical computing library
 My C++ implementation of utilities based on symbolic computation.
 
-####Function
+
+
+#### Point
+
+Object _Point_ represent point in n-dimensional space. 
+```
+    OneDimensional::Point myPoint(2);
+    TwoDimensional::Point myPoint(1.5, 5);
+    ThreeDimensional::Point myPoint(1.5, 2, 5);
+```
+
+1. **Point value**  
+`` myPoint[i];`` return point value in `i` dimension.
+
+By call `` myPoint.matrix;`` are possible matrices operations, return `1 x n` matrix.
+
+
+
+#### Function
 
 Object _Function_ represent mathematical function by symbolic variables. 
-
 ```
     TwoDimensional::Function myFunction((x - 2)*(x + 5) + 3*y);
 ```
 
-1. **Function value**
-```
-myFunction.value(Point);
-```
+1. **Function value**  
+`` myFunction.value(Point);``
 return function value of function at given `Point`.
 
 2. **Function gradient**
-```
-myFunction.gradient();
-myFunction.gradient(Point);
-```
+` myFunction.gradient(); myFunction.gradient(Point);`
 return matrix `n x 1` of function's first derivatives - gradient. 
 
 3. **Function hessian**
-```
-myFunction.hessian();
-myFunction.hessian(Point);
-```
+`myFunction.hessian(); myFunction.hessian(Point);`
 return matrix `n x n`  of function's seconds derivatives - hessian. 
 
 4. **Function character of stationary/inflection point**
-```
-myFunction.character(Point);
-```
+`myFunction.character(Point);`
+
 return `StationaryPoin::Minimum = 0` if Point is a locally minimum of function, return 
 `StationaryPoin::Maximum = 1` if Point is a locally maximum, or `StationaryPoin::Saddle = 2`
 if Point is saddle point of function.
 
 
-
-
-```
-Linux
-
-C++
-
-custom IDE (Jetbrains CLion)
-
-SymbolicC++ lib
-
-GnuPlot-iostream
-```
-
-## Area of use
-
-> Symbolic intergation and derivation
-
-> Graphical solutions and visualisations
-
-> Process optimalisation
 
 #### My application
 I have develop this platform to implement Numerical Optimization methods used for
