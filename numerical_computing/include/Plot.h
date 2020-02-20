@@ -11,6 +11,7 @@
 #include "gnuplot-iostream.h"
 
 #include <string.h>
+#include "../../numerical_control/include/SystemModel.h"
 
 class Plot {
 
@@ -26,6 +27,8 @@ public:
     static void function(OneDimensional::Function);
     static void function(TwoDimensional::Function);
     static void function(ThreeDimensional::Function);
+
+    static void systemModel(FirstOrder::SystemModel);
 
 
 };

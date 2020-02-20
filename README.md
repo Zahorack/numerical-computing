@@ -81,8 +81,8 @@ Plot::function(myFunction.getSymbolic());
 
 
 #### My application
-I have develop this platform to implement Numerical Optimization methods used for
-finding locally extremes of functions. 
+I have develop this platform to implement Numerical Optimization comparative and gradient methods 
+used for finding locally extremes of functions. 
 
 ## Numerical optimization
 #### One dimensional optimization problem
