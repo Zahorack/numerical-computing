@@ -7,11 +7,13 @@
 
 #include "TransferFunction.h"
 
+static const Symbolic s("s");
+
+////////////////////////////////////////////////////////////////////////
 namespace FirstOrder {
     class SystemModel {
 
         TransferFunction m_tf;
-        double m_gain;
 
         TransferFunction normalForm();
         TransferFunction rootsForm();
@@ -35,4 +37,34 @@ namespace FirstOrder {
 
     };
 }
+
+////////////////////////////////////////////////////////////////////////
+namespace SecondOrder {
+    class SystemModel {
+
+        TransferFunction m_tf;
+
+        TransferFunction normalForm();
+    public: TransferFunction rootsForm();
+        Symbolic partialFractionsSolution(double *, double *);
+
+    public:
+        SystemModel(TransferFunction tf);
+
+        ~SystemModel();
+
+        double getGain();
+        double getTimeConstant();
+        void getRoots(double *, double *);
+        double getPoles();
+        double getZeros();
+        bool isStable();
+        TransferFunction transitionForm();
+
+        Symbolic transitionFunction();
+        Symbolic impulseFunction();
+
+    };
+}
+
 #endif //NUMERICAL_COMPUTING_SYSTEMMODEL_H

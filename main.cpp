@@ -7,16 +7,17 @@
 #include "examples/include/project_1.h"
 #include "examples/include/project_2.h"
 
+#include "symbolicc++.h"
 #include "optimization/include/NewtonRaphson.h"
 #include "optimization/include/LevenbergMarquardt.h"
 #include "optimization/include/NelderMead.h"
 #include "optimization/include/GoldenSectionSearch.h"
 #include "optimization/include/DavidonSearch.h"
-#include "symbolicc++.h"
-#include "Plot.h"
-#include "Function.h"
-#include "TransferFunction.h"
-#include "SystemModel.h"
+#include "numerical_computing/include/Plot.h"
+#include "numerical_computing/include/Function.h"
+#include "numerical_computing/include/TransferFunction.h"
+#include "numerical_control/include/SystemModel.h"
+#include "QuadraticEquation.h"
 
 
 
@@ -63,6 +64,18 @@ static void control_system_example()
     Plot::systemModel(system);
 }
 
+static void quadratic_equations_example()
+{
+    QuadraticEquation equation(50*s*s -20*s + 100, Symbolic(s));
+    QuadraticEquationResult result = equation.solve();
+
+    if(result.root1.isValid) {
+        cout << "root1: " << result.root1.real << " + " <<result.root1.imaginary << "i\n";
+    }
+    if(result.root2.isValid) {
+        cout << "root2: " << result.root2.real << " + " <<result.root2.imaginary << "i\n";
+    }
+}
 
 int main() {
 
@@ -76,7 +89,14 @@ int main() {
 //    TwoDimensional::Function myFunction((x - 2)*(x + 5) + y*y);
 //    Plot::function(myFunction.getSymbolic());
 
-    control_system_example();
+//    control_system_example();
+
+//    SecondOrder::SystemModel system(TransferFunction(1, (0.1*s*s + 2.4*s + 8.0)));
+//    double a,b;
+//    system.getRoots(&a, &b);
+//
+//    cout<<system.rootsForm().function;
+
 
 
     return 0;

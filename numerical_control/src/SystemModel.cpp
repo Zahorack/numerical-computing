@@ -3,6 +3,7 @@
 //
 
 #include "../include/SystemModel.h"
+#include "QuadraticEquation.h"
 
 ////////////////////////////////////////////////////////////////////////
 namespace FirstOrder {
@@ -92,7 +93,85 @@ namespace FirstOrder {
     Symbolic SystemModel::impulseFunction() {
         return Symbolic(rootsForm().numerator * exp(getRoots() * Symbolic("t")));
     }
-    
+
 }
 
 ////////////////////////////////////////////////////////////////////////
+/*Not implemented yet*/
+
+namespace SecondOrder {
+    SystemModel::SystemModel(TransferFunction tf) :
+            m_tf(tf) {}
+
+    SystemModel::~SystemModel() {};
+
+/*
+ *     @Normal form for Second order systems looks like
+ *     ________K________
+ *     (T1s + 1)(T2s + 1)
+ */
+    TransferFunction SystemModel::normalForm() {
+
+    }
+
+    double SystemModel::getGain() {
+
+    }
+
+    double SystemModel::getTimeConstant() {
+
+    }
+
+/*
+ *  @Root "s" of denominator normal form First order
+ *
+ */
+
+    void SystemModel::getRoots(double *x1, double *x2) {
+
+        QuadraticEquation equation(m_tf.denominator, Symbolic(s));
+
+        QuadraticEquationResult result = equation.solve();
+
+    }
+
+    double SystemModel::getPoles() {
+
+    }
+
+    bool SystemModel::isStable() {
+
+    }
+
+    TransferFunction SystemModel::rootsForm() {
+        double x1, x2;
+        getRoots(&x1, &x2);
+
+        double a = toDouble(df(df(m_tf.denominator, s), s)/Symbolic(2));
+
+        return TransferFunction(m_tf.numerator, Symbolic(a*(s - x2)*(s - x1)));
+    }
+
+    TransferFunction SystemModel::transitionForm() {
+
+    }
+
+    Symbolic SystemModel::partialFractionsSolution(double *A, double *B) {
+
+    }
+
+/*
+ *  @Using Inverse Laplace transform L^(-1)
+ *
+ *  1.) L^(-1){x/s} = x
+ *  2.) L^(-1){x/(s + y)} = x*e^(-y*t)
+ */
+    Symbolic SystemModel::transitionFunction() {
+
+    }
+
+    Symbolic SystemModel::impulseFunction() {
+
+    }
+
+}

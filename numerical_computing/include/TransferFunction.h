@@ -7,7 +7,7 @@
 
 #include "symbolicc++.h"
 
-static const Symbolic s("s");
+
 
 class TransferFunction{
 public:
