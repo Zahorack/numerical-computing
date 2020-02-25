@@ -98,10 +98,20 @@ namespace FirstOrder {
 
 ////////////////////////////////////////////////////////////////////////
 /*Not implemented yet*/
+//TODO:
+// Complex number roots / poles ??
 
 namespace SecondOrder {
     SystemModel::SystemModel(TransferFunction tf) :
-            m_tf(tf) {}
+            m_tf(tf)
+    {
+        //initial correction
+        double a = toDouble(df(df(m_tf.denominator, s), s)/Symbolic(2));
+        if(a != 0) {
+            m_tf.numerator /= a;
+            m_tf.denominator /= a;
+        }
+    }
 
     SystemModel::~SystemModel() {};
 
@@ -115,48 +125,116 @@ namespace SecondOrder {
     }
 
     double SystemModel::getGain() {
+        double divider1 = 1, divider2 = 1;
 
+        QuadraticEquationResult roots = getRoots();
+
+        if(roots.root1.isValid && roots.root1.real != 0)
+            divider1 = roots.root1.real;
+
+        if(roots.root2.isValid && roots.root2.real != 0)
+            divider2 = roots.root2.real;
+
+        return double(toDouble(m_tf.numerator)/(divider1*divider2));
     }
 
-    double SystemModel::getTimeConstant() {
+    void SystemModel::getTimeConstant(double *T1, double *T2) {
 
+        QuadraticEquationResult poles = getPoles();
+
+        if(poles.root1.isValid && poles.root1.real != 0)
+            *T1 = 1/getPoles().root1.real;
+        if(poles.root2.isValid && poles.root2.real != 0)
+            *T2 = 1/getPoles().root2.real;
     }
 
 /*
  *  @Root "s" of denominator normal form First order
  *
  */
-
-    void SystemModel::getRoots(double *x1, double *x2) {
+    QuadraticEquationResult SystemModel::getRoots() {
 
         QuadraticEquation equation(m_tf.denominator, Symbolic(s));
 
-        QuadraticEquationResult result = equation.solve();
-
+        return QuadraticEquationResult(equation.solve());
     }
 
-    double SystemModel::getPoles() {
-
+    QuadraticEquationResult SystemModel::getPoles() {
+        return QuadraticEquationResult(getRoots());
     }
 
     bool SystemModel::isStable() {
 
+        QuadraticEquationResult poles = getPoles();
+
+        if(poles.root1.real < 0 && poles.root2.real < 0) {
+            return true;
+        }
+        return false;
     }
 
     TransferFunction SystemModel::rootsForm() {
-        double x1, x2;
-        getRoots(&x1, &x2);
+
+        QuadraticEquationResult roots = getRoots();
+
 
         double a = toDouble(df(df(m_tf.denominator, s), s)/Symbolic(2));
 
-        return TransferFunction(m_tf.numerator, Symbolic(a*(s - x2)*(s - x1)));
+        return TransferFunction(m_tf.numerator, Symbolic(a*(s - (roots.root1.real + roots.root1.imaginary*i))*
+                                                                 (s - (roots.root2.real + roots.root2.imaginary*i))));
     }
 
     TransferFunction SystemModel::transitionForm() {
-
+        return TransferFunction(rootsForm().numerator, rootsForm().denominator * s);
     }
 
-    Symbolic SystemModel::partialFractionsSolution(double *A, double *B) {
+    /*
+     *  @Second order partial fractions problem
+     *
+     *  numa*^2 + numb*s + numc         A      B     C
+     *  ________________________    =  ___  + ___ + ___
+     *  dena*s^2 + denb*s + denc       denA   denB  denC
+     *
+     *  @task: To find coefficients A, B, C
+     */
+    //TODO:
+    //Maybe matrix implemented solution
+    ThreeDimensional::LinearEquationsSystemResult SystemModel::partialFractionsSolution() {
+
+        QuadraticEquationResult roots = getRoots();
+        Symbolic denA = Symbolic(s);
+        Symbolic denB = (s - (roots.root1.real + roots.root1.imaginary*i));
+        Symbolic denC = (s - (roots.root2.real + roots.root2.imaginary*i));
+        Symbolic num = m_tf.numerator;
+        Symbolic den = m_tf.denominator;
+
+        Symbolic numa = toDouble(df(df(num, s), s)/Symbolic(2));
+        Symbolic numb = toDouble(Symbolic(df(num, s).subst(s == 1)) - Symbolic(numa*2));
+        Symbolic numc = toDouble(num.subst(s == 0));
+
+
+        Symbolic x("x"), y("y"), z("z");
+        Symbolic leftEquation = x*denB*denC + y*denA*denC + z*denA*denB;
+        cout<<leftEquation;
+
+        Symbolic a = (df(df(leftEquation, s), s)/Symbolic(2));
+        Symbolic b = (Symbolic(df(leftEquation, s).subst(s == 1)) - Symbolic(a*2));
+        Symbolic c = (leftEquation.subst(s == 0));
+
+        Symbolic leftMatrix = ( (df(a, x), df(a, y), df(a, z)),
+                                (df(b, x), df(b, y), df(b, z)),
+                                (df(c, x), df(c, y), df(c, z))
+                             );
+        Symbolic rightMatrix = (numa, numb, numc);
+
+        ThreeDimensional::LinearEquationsSystem system(leftMatrix, rightMatrix);
+        ThreeDimensional::LinearEquationsSystemResult result(system.solve());
+
+//        cout<<"\nx: "<<result.root1<<"\n";
+//        cout<<"y: "<<result.root2<<"\n";
+//        cout<<"z: "<<result.root3<<"\n";
+
+        return result;
 
     }
 

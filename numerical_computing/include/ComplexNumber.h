@@ -5,6 +5,9 @@
 #ifndef NUMERICAL_COMPUTING_COMPLEXNUMBER_H
 #define NUMERICAL_COMPUTING_COMPLEXNUMBER_H
 
+#include "symbolicc++.h"
+
+static const Symbolic i("i");
 
 class ComplexNumber {
 public:

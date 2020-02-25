@@ -6,6 +6,8 @@
 #define NUMERICAL_COMPUTING_SYSTEMMODEL_H
 
 #include "TransferFunction.h"
+#include "QuadraticEquation.h"
+#include "LinearEquationsSystem.h"
 
 static const Symbolic s("s");
 
@@ -45,8 +47,8 @@ namespace SecondOrder {
         TransferFunction m_tf;
 
         TransferFunction normalForm();
-    public: TransferFunction rootsForm();
-        Symbolic partialFractionsSolution(double *, double *);
+        TransferFunction rootsForm();
+        ThreeDimensional::LinearEquationsSystemResult partialFractionsSolution();
 
     public:
         SystemModel(TransferFunction tf);
@@ -54,9 +56,9 @@ namespace SecondOrder {
         ~SystemModel();
 
         double getGain();
-        double getTimeConstant();
-        void getRoots(double *, double *);
-        double getPoles();
+        void getTimeConstant(double *, double *);
+        QuadraticEquationResult getRoots();
+        QuadraticEquationResult getPoles();
         double getZeros();
         bool isStable();
         TransferFunction transitionForm();

@@ -25,6 +25,7 @@ public:
         root1(r1)
     {
         root1.isValid = true;
+        root1.isValid = false;
     };
 };
 

@@ -18,6 +18,7 @@
 #include "numerical_computing/include/TransferFunction.h"
 #include "numerical_control/include/SystemModel.h"
 #include "QuadraticEquation.h"
+#include "LinearEquationsSystem.h"
 
 
 
@@ -91,13 +92,22 @@ int main() {
 
 //    control_system_example();
 
-//    SecondOrder::SystemModel system(TransferFunction(1, (0.1*s*s + 2.4*s + 8.0)));
-//    double a,b;
-//    system.getRoots(&a, &b);
+
+    SecondOrder::SystemModel system(TransferFunction(1, (0.1*s*s + 2.4*s + 8.0)));
+
+
+//    cout<<"\n Gain:"<<system.getGain()<<"\n";
+
+//    Symbolic left  = ((Symbolic(1),Symbolic(2),Symbolic(3)),
+//                     (Symbolic(4),Symbolic(5),Symbolic(6)),
+//                     (Symbolic(7),Symbolic(8),Symbolic(9)));
 //
-//    cout<<system.rootsForm().function;
-
-
+//    Symbolic right = (  (Symbolic(1)),
+//                        (Symbolic(2)),
+//                        (Symbolic(3)));
+//
+//    ThreeDimensional::LinearEquationsSystem system(left, right);
+//    system.solve();
 
     return 0;
 }
