@@ -63,9 +63,11 @@ namespace ThreeDimensional {
         Symbolic m_leftMatrix, m_rightMatrix;
     public:
         LinearEquationsSystem(Symbolic, Symbolic);
-        LinearEquationsSystem(Symbolic, Symbolic, Symbolic);
         LinearEquationsSystem(Symbolic, Symbolic, Symbolic, Symbolic, Symbolic, Symbolic);
         ~LinearEquationsSystem();
+
+        Symbolic getRightMatrix(){return m_rightMatrix;}
+        Symbolic getLeftMatrix(){return m_leftMatrix;}
 
         LinearEquationsSystemResult solve();
     };

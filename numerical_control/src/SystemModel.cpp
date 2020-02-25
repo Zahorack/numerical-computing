@@ -230,9 +230,9 @@ namespace SecondOrder {
         ThreeDimensional::LinearEquationsSystem system(leftMatrix, rightMatrix);
         ThreeDimensional::LinearEquationsSystemResult result(system.solve());
 
-//        cout<<"\nx: "<<result.root1<<"\n";
-//        cout<<"y: "<<result.root2<<"\n";
-//        cout<<"z: "<<result.root3<<"\n";
+        cout<<"\nx: "<<result.root1<<"\n";
+        cout<<"y: "<<result.root2<<"\n";
+        cout<<"z: "<<result.root3<<"\n";
 
         return result;
 

@@ -48,7 +48,7 @@ namespace SecondOrder {
 
         TransferFunction normalForm();
         TransferFunction rootsForm();
-        ThreeDimensional::LinearEquationsSystemResult partialFractionsSolution();
+    public:ThreeDimensional::LinearEquationsSystemResult partialFractionsSolution();
 
     public:
         SystemModel(TransferFunction tf);

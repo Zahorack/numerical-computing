@@ -78,6 +78,20 @@ static void quadratic_equations_example()
     }
 }
 
+static void linear_equations_system_example()
+{
+    Symbolic equation1 = x + 2*y - z - 2;
+    Symbolic equation2 = x - y + 2*z - 5;
+    Symbolic equation3 = 2*x + 2*y + 2*z - 12;
+
+    ThreeDimensional::LinearEquationsSystem system(equation1, equation2, equation3, x, y, z);
+    ThreeDimensional::LinearEquationsSystemResult result(system.solve());
+
+    cout<<"root1 = "<<result.root1<<"\n";
+    cout<<"root2 = "<<result.root2<<"\n";
+    cout<<"root3 = "<<result.root3<<"\n";
+}
+
 int main() {
 
 //    examples::lectureOne::taskOne();
@@ -92,8 +106,9 @@ int main() {
 
 //    control_system_example();
 
-
-    SecondOrder::SystemModel system(TransferFunction(1, (0.1*s*s + 2.4*s + 8.0)));
+    linear_equations_system_example();
+//    SecondOrder::SystemModel system(TransferFunction(1, (0.1*s*s + 2.4*s + 8.0)));
+//    system.partialFractionsSolution();
 
 
 //    cout<<"\n Gain:"<<system.getGain()<<"\n";
